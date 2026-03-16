@@ -1,0 +1,38 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+websockets==14.1
+python-dotenv==1.0.1
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# PDF processing
+pypdf==5.1.0
+python-multipart==0.0.20
+
+# Embeddings & reranker
+sentence-transformers==3.3.1
+torch==2.5.1
+
+# Vector DB
+qdrant-client==1.12.1
+
+# Redis
+redis==5.2.1
+
+# LLM
+groq==0.13.1
+
+# LangGraph
+langgraph==0.2.60
+langchain-core==0.3.28
+
+# BM25
+rank-bm25==0.2.2
+
+# Voice
+httpx==0.28.1
+elevenlabs>=1.13,<2
+
+# Utilities
+numpy==2.2.1
+tiktoken==0.8.0
