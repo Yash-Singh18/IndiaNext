@@ -154,7 +154,7 @@ export function ServicesPage({
             <div className="sp-card-actions">
               <button
                 className="sp-btn sp-btn-demo"
-                onClick={() => window.open("http://localhost:8004", "_blank")}
+                onClick={() => window.open(import.meta.env.VITE_VULNERABLE_DEMO_URL || "http://localhost:8004", "_blank")}
               >
                 ▶ Live Demo
               </button>
@@ -181,7 +181,7 @@ export function ServicesPage({
             <div className="sp-card-actions">
               <button
                 className="sp-btn sp-btn-demo"
-                onClick={() => window.open("http://localhost:8005", "_blank")}
+                onClick={() => window.open(import.meta.env.VITE_LOGIN_ANOMALY_URL || "http://localhost:8005", "_blank")}
               >
                 ▶ Live Demo
               </button>
