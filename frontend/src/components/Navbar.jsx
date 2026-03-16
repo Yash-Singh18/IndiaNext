@@ -120,8 +120,7 @@ export function Navbar({
   function handleNavClick(e, item) {
     if (item.id === "dashboard") {
       e.preventDefault();
-      if (session) onDashboard?.();
-      else onLogin?.();
+      onDashboard?.();
       return;
     }
     if (item.id === "scanner") { e.preventDefault(); onChat?.(); return; }

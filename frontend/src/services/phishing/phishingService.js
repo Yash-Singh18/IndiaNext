@@ -1,6 +1,15 @@
 const PHISHING_API_URL =
   import.meta.env.VITE_PHISHING_SERVICE_URL || "http://localhost:8001";
 
+function extractErrorMessage(err, fallback) {
+  if (typeof err.detail === "string") return err.detail;
+  if (Array.isArray(err.detail) && err.detail.length > 0) {
+    return err.detail.map((e) => e.msg || JSON.stringify(e)).join("; ");
+  }
+  if (err.message) return err.message;
+  return fallback;
+}
+
 export async function scanEmail({ sender, subject, body, userId }) {
   const res = await fetch(`${PHISHING_API_URL}/api/scan/email`, {
     method: "POST",
@@ -9,7 +18,7 @@ export async function scanEmail({ sender, subject, body, userId }) {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || "Scan failed");
+    throw new Error(extractErrorMessage(err, "Scan failed"));
   }
   return res.json();
 }
@@ -17,7 +26,7 @@ export async function scanEmail({ sender, subject, body, userId }) {
 export async function scanEmlFile(file, userId) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("user_id", userId);
+  if (userId) formData.append("user_id", userId);
 
   const res = await fetch(`${PHISHING_API_URL}/api/scan/eml`, {
     method: "POST",
@@ -25,7 +34,7 @@ export async function scanEmlFile(file, userId) {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || "EML scan failed");
+    throw new Error(extractErrorMessage(err, "EML scan failed"));
   }
   return res.json();
 }
@@ -38,7 +47,7 @@ export async function scanUrl({ url, userId }) {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || "URL scan failed");
+    throw new Error(extractErrorMessage(err, "URL scan failed"));
   }
   return res.json();
 }
@@ -51,7 +60,7 @@ export async function scanMessage({ message, userId }) {
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error(err.detail || "Message scan failed");
+    throw new Error(extractErrorMessage(err, "Message scan failed"));
   }
   return res.json();
 }

@@ -44,7 +44,23 @@ const PLANS = [
   },
 ];
 
-export function SubscriptionPage({ session, profile, authLoading, onHome, onChat, onDashboard, onLogin, onLogout, onAdmin, onServices }) {
+export function SubscriptionPage({
+  session,
+  profile,
+  authLoading,
+  onHome,
+  onChat,
+  onDashboard,
+  onLogin,
+  onLogout,
+  onSubscription,
+  onDeepfake,
+  onApplyExpert,
+  onExpertDashboard,
+  onCommunityChat,
+  onAdmin,
+  onServices,
+}) {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState(null);
@@ -115,6 +131,11 @@ export function SubscriptionPage({ session, profile, authLoading, onHome, onChat
         onDashboard={onDashboard}
         onLogin={onLogin}
         onLogout={onLogout}
+        onSubscription={onSubscription}
+        onDeepfake={onDeepfake}
+        onApplyExpert={onApplyExpert}
+        onExpertDashboard={onExpertDashboard}
+        onCommunityChat={onCommunityChat}
         onAdmin={onAdmin}
         onServices={onServices}
       />

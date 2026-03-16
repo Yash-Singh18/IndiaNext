@@ -7,6 +7,8 @@ export function ServicesPage({
   profile,
   authLoading,
   onHome,
+  onChat,
+  onDashboard,
   onLogin,
   onLogout,
   onSubscription,
@@ -34,6 +36,8 @@ export function ServicesPage({
         profile={profile}
         authLoading={authLoading}
         onHome={onHome}
+        onChat={onChat}
+        onDashboard={onDashboard}
         onLogin={onLogin}
         onLogout={onLogout}
         onSubscription={onSubscription}

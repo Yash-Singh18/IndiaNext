@@ -78,7 +78,22 @@ function ThreatBar({ label, value }) {
   );
 }
 
-export function DashboardPage({ session, profile, authLoading, onBack, onLogout, onOpenChat, onLogin, onSubscription, onAdmin, onServices }) {
+export function DashboardPage({
+  session,
+  profile,
+  authLoading,
+  onBack,
+  onLogout,
+  onOpenChat,
+  onLogin,
+  onSubscription,
+  onAdmin,
+  onServices,
+  onDeepfake,
+  onApplyExpert,
+  onExpertDashboard,
+  onCommunityChat,
+}) {
   const [tab, setTab] = useState("paste");
   const [sender, setSender] = useState("");
   const [subject, setSubject] = useState("");
@@ -111,6 +126,12 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
   async function handleScan() {
     setError("");
     setResult(null);
+
+    if (!userId) {
+      setError("Please sign in to scan for phishing.");
+      return;
+    }
+
     setScanning(true);
     try {
       let res;
@@ -143,10 +164,10 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
         }
         res = await scanMessage({ message: messageInput.trim(), userId });
       }
-      setResult(res);
+      if (res) setResult(res);
       loadHistory();
     } catch (err) {
-      setError(err.message || "Scan failed");
+      setError(err.message || "Scan failed. Please try again.");
     } finally {
       setScanning(false);
     }
@@ -167,6 +188,10 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
         onLogout={onLogout}
         onSubscription={onSubscription}
         onAdmin={onAdmin}
+        onDeepfake={onDeepfake}
+        onApplyExpert={onApplyExpert}
+        onExpertDashboard={onExpertDashboard}
+        onCommunityChat={onCommunityChat}
         onServices={onServices}
       />
 
@@ -310,7 +335,7 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
             </button>
           </section>
 
-          {result && (
+          {result && typeof result === "object" && (
             <section className="dash-result-card">
               <div className="dash-result-header">
                 <span
@@ -333,7 +358,7 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
                 </div>
               </div>
 
-              {result.threat_breakdown && (
+              {result.threat_breakdown && typeof result.threat_breakdown === "object" && (
                 <div className="dash-threat-section">
                   <h4>Threat Breakdown</h4>
                   <ThreatBar
@@ -372,20 +397,20 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
                   {result.url_reports.map((u, i) => (
                     <div key={i} className="dash-url-item">
                       <span
-                        className={`dash-url-dot ${u.is_malicious ? "dash-url-bad" : "dash-url-ok"}`}
+                        className={`dash-url-dot ${u?.is_malicious ? "dash-url-bad" : "dash-url-ok"}`}
                       />
-                      <span className="dash-url-text">{u.url || "unknown"}</span>
-                      {u.virustotal_score != null && (
+                      <span className="dash-url-text">{u?.url || "unknown"}</span>
+                      {u?.virustotal_score != null && (
                         <span className="dash-url-tag">
                           VT: {u.virustotal_score}
                         </span>
                       )}
-                      {u.safe_browsing_threat && (
+                      {u?.safe_browsing_threat && (
                         <span className="dash-url-tag dash-url-tag-bad">
                           {u.safe_browsing_threat}
                         </span>
                       )}
-                      {u.is_homoglyph && (
+                      {u?.is_homoglyph && (
                         <span className="dash-url-tag dash-url-tag-bad">
                           Homoglyph
                         </span>
@@ -398,7 +423,7 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
               {result.recommended_action && (
                 <div className="dash-action">
                   <h4>Recommended Action</h4>
-                  <p>{result.recommended_action}</p>
+                  <p>{String(result.recommended_action)}</p>
                 </div>
               )}
             </section>
@@ -416,15 +441,15 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
               </div>
             ) : (
               <div className="dash-history-list">
-                {history.map((scan) => (
-                  <div key={scan.id} className="dash-history-item">
+                {history.map((scan, idx) => (
+                  <div key={scan.id || scan.scan_id || idx} className="dash-history-item">
                     <span
                       className="dash-history-badge"
                       style={{
-                        background: classificationColor(scan.classification),
+                        background: classificationColor(scan.classification || "suspicious"),
                       }}
                     >
-                      {scan.risk_score}
+                      {scan.risk_score ?? 0}
                     </span>
                     <div className="dash-history-info">
                       <span className="dash-history-subject">
@@ -435,7 +460,7 @@ export function DashboardPage({ session, profile, authLoading, onBack, onLogout,
                       </span>
                     </div>
                     <span className="dash-history-date">
-                      {new Date(scan.created_at).toLocaleDateString()}
+                      {scan.created_at ? new Date(scan.created_at).toLocaleDateString() : "—"}
                     </span>
                   </div>
                 ))}

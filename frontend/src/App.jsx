@@ -201,6 +201,8 @@ export function App() {
         profile={state.profile}
         authLoading={state.authLoading}
         onHome={() => setPage("landing")}
+        onChat={() => setPage("chat")}
+        onDashboard={() => setPage("dashboard")}
         onLogin={actions.onOpenLogin}
         onLogout={actions.onLogout}
         onSubscription={() => setPage("subscription")}
@@ -264,6 +266,11 @@ export function App() {
         onDashboard={() => setPage("dashboard")}
         onLogin={actions.onOpenLogin}
         onLogout={actions.onLogout}
+        onSubscription={() => setPage("subscription")}
+        onDeepfake={() => setPage("deepfake")}
+        onApplyExpert={() => setPage("applyExpert")}
+        onExpertDashboard={() => setPage("expertDashboard")}
+        onCommunityChat={handleOpenCommunityChat}
         onServices={() => setPage("services")}
       />
     );
@@ -282,6 +289,9 @@ export function App() {
         onLogout={actions.onLogout}
         onSubscription={() => setPage("subscription")}
         onDeepfake={() => setPage("deepfake")}
+        onApplyExpert={() => setPage("applyExpert")}
+        onExpertDashboard={() => setPage("expertDashboard")}
+        onCommunityChat={handleOpenCommunityChat}
         onServices={() => setPage("services")}
       />
     );
@@ -298,6 +308,11 @@ export function App() {
         onOpenChat={() => setPage("chat")}
         onLogin={actions.onOpenLogin}
         onSubscription={() => setPage("subscription")}
+        onAdmin={() => setPage("admin")}
+        onDeepfake={() => setPage("deepfake")}
+        onApplyExpert={() => setPage("applyExpert")}
+        onExpertDashboard={() => setPage("expertDashboard")}
+        onCommunityChat={handleOpenCommunityChat}
         onServices={() => setPage("services")}
       />
     );

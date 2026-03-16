@@ -44,6 +44,9 @@ export function DeepfakePage({
   onLogout,
   onSubscription,
   onDeepfake,
+  onApplyExpert,
+  onExpertDashboard,
+  onCommunityChat,
   onServices,
 }) {
   const [status, setStatus] = useState("idle");
@@ -123,6 +126,9 @@ export function DeepfakePage({
         onLogout={onLogout}
         onSubscription={onSubscription}
         onDeepfake={onDeepfake}
+        onApplyExpert={onApplyExpert}
+        onExpertDashboard={onExpertDashboard}
+        onCommunityChat={onCommunityChat}
         onServices={onServices}
       />
 
