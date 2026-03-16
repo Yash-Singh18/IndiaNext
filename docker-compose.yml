@@ -25,11 +25,30 @@ services:
       - ./ai-service/.env
     volumes:
       - ./ai-service:/app
-      - ./ai-service/models_cache:/app/models_cache
+      - hf_cache:/root/.cache/huggingface
     depends_on:
       - qdrant
       - redis
     environment:
       - QDRANT_HOST=qdrant
       - REDIS_HOST=redis
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     restart: unless-stopped
+
+  phishing-service:
+    build: ./phishingdetection
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./phishingdetection/.env
+    volumes:
+      - ./phishingdetection:/app
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+
+volumes:
+  hf_cache:

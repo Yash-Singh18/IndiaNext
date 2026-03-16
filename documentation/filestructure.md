@@ -10,19 +10,31 @@ frontend/
     components/
       AccountDangerCard.jsx
       AuthChoiceModal.jsx
-      AuthHeader.jsx
-      HeroPanel.jsx
+      ChatInput.jsx
+      ChatMessage.jsx
+      ChatPanel.css
+      ChatPanel.jsx
       ProfileFormCard.jsx
+      ProfileSetupModal.css
+      ProfileSetupModal.jsx
       ProfileSummaryCard.jsx
       StatusBanner.jsx
     pages/
+      chat/
+        ChatPage.css
+        ChatPage.jsx
       home/
-        index.js
+        HomePage.css
+        HomePage.jsx
+      landing/
+        LandingPage.css
+        LandingPage.jsx
     services/
       auth/
         authService.js
-      config/
-        runtimeConfigService.js
+      chat/
+        chatService.js
+        useChat.js
       profile/
         profileService.js
       supabase/
@@ -46,6 +58,7 @@ supabase/
 
 ```text
 documentation/
+  colorpallete.md
   filestructure.md
   instructions.md
   schemas.md

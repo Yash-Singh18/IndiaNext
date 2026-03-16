@@ -4,7 +4,8 @@ import math
 
 def _tokenize(text: str) -> list[str]:
     text = text.lower()
-    text = re.sub(r'[^a-z0-9\s]', ' ', text)
+    # Keep Unicode word characters (letters, digits) from any script, not just ASCII
+    text = re.sub(r'[^\w\s]', ' ', text, flags=re.UNICODE)
     return [w for w in text.split() if len(w) > 1]
 
 

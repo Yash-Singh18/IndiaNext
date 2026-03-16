@@ -71,56 +71,23 @@ async def run_agent(session_id: str, query: str, ws_manager: WebSocketManager):
         "error": None,
     }
 
-    # Run the graph
-    final_state = await agent_graph.ainvoke(initial_state)
-
-    route = final_state.get("route", "rag")
-    history = final_state.get("history", [])
-
-    # Stream response based on route
     full_response = ""
 
-    if route == "greeting":
-        system_prompt = (
-            "You are NorthStar AI, a friendly financial assistant for rural India. "
-            "Respond warmly to the greeting. Keep it brief and friendly. "
-            "You can respond in the user's language."
-        )
-        async for token in llm_service.generate_stream(system_prompt, query, history):
-            full_response += token
-            await ws_manager.send_message(session_id, {
-                "type": "token",
-                "content": token,
-            })
+    try:
+        # Run the graph
+        final_state = await agent_graph.ainvoke(initial_state)
 
-    elif route == "general":
-        system_prompt = (
-            "You are NorthStar AI, a knowledgeable financial assistant for rural India. "
-            "Answer general knowledge questions helpfully and accurately. "
-            "If the question is about financial topics, provide useful context. "
-            "You can respond in the user's language."
-        )
-        async for token in llm_service.generate_stream(system_prompt, query, history):
-            full_response += token
-            await ws_manager.send_message(session_id, {
-                "type": "token",
-                "content": token,
-            })
+        route = final_state.get("route", "rag")
+        history = final_state.get("history", [])
 
-    else:  # RAG
-        context = final_state.get("context", "")
-        sources = final_state.get("sources", [])
-        confidence = final_state.get("confidence", 0.0)
-
-        if not context:
-            await ws_manager.send_message(session_id, {
-                "type": "token",
-                "content": "I don't have any relevant documents to answer that question. "
-                           "Please upload some documents first using the upload feature.",
-            })
-            full_response = "No documents available."
-        else:
-            system_prompt = build_rag_prompt(context, sources)
+        # Stream response based on route
+        if route == "greeting":
+            system_prompt = (
+                "You are NorthStar AI, a friendly financial assistant for rural India. "
+                "Respond warmly to the greeting. Keep it brief and friendly. "
+                "If the user speaks Hindi, respond in Hindi using Devanagari script only. "
+                "NEVER use Urdu or Nastaliq/Arabic script. Always use Devanagari (e.g. नमस्ते, not نمستے)."
+            )
             async for token in llm_service.generate_stream(system_prompt, query, history):
                 full_response += token
                 await ws_manager.send_message(session_id, {
@@ -128,18 +95,62 @@ async def run_agent(session_id: str, query: str, ws_manager: WebSocketManager):
                     "content": token,
                 })
 
-            # Send sources after response
-            await ws_manager.send_message(session_id, {
-                "type": "sources",
-                "sources": sources,
-                "confidence": confidence,
-            })
+        elif route == "general":
+            system_prompt = (
+                "You are NorthStar AI, a knowledgeable financial assistant for rural India. "
+                "Answer general knowledge questions helpfully and accurately. "
+                "If the question is about financial topics, provide useful context. "
+                "If the user speaks Hindi, respond in Hindi using Devanagari script only. "
+                "NEVER use Urdu or Nastaliq/Arabic script. Always use Devanagari (e.g. नमस्ते, not نمستے)."
+            )
+            async for token in llm_service.generate_stream(system_prompt, query, history):
+                full_response += token
+                await ws_manager.send_message(session_id, {
+                    "type": "token",
+                    "content": token,
+                })
 
-    # Save assistant response to memory
-    memory_service.add_message(session_id, "assistant", full_response)
+        else:  # RAG
+            context = final_state.get("context", "")
+            sources = final_state.get("sources", [])
+            confidence = final_state.get("confidence", 0.0)
 
-    # Send done signal
-    await ws_manager.send_message(session_id, {
-        "type": "done",
-        "content": "",
-    })
+            if not context:
+                await ws_manager.send_message(session_id, {
+                    "type": "token",
+                    "content": "I don't have any relevant documents to answer that question. "
+                               "Please upload some documents first using the upload feature.",
+                })
+                full_response = "No documents available."
+            else:
+                system_prompt = build_rag_prompt(context, sources)
+                async for token in llm_service.generate_stream(system_prompt, query, history):
+                    full_response += token
+                    await ws_manager.send_message(session_id, {
+                        "type": "token",
+                        "content": token,
+                    })
+
+                # Send sources after response
+                await ws_manager.send_message(session_id, {
+                    "type": "sources",
+                    "sources": sources,
+                    "confidence": confidence,
+                })
+
+        # Save assistant response to memory
+        memory_service.add_message(session_id, "assistant", full_response)
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        await ws_manager.send_message(session_id, {
+            "type": "error",
+            "content": f"Sorry, I encountered an error processing your request. Please try again.",
+        })
+    finally:
+        # Always send done signal so the frontend never gets stuck
+        await ws_manager.send_message(session_id, {
+            "type": "done",
+            "content": "",
+        })

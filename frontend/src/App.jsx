@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { LandingPage } from "./pages/landing/LandingPage.jsx";
+import { HomePage } from "./pages/home/HomePage.jsx";
 import { ChatPage } from "./pages/chat/ChatPage.jsx";
+import { DashboardPage } from "./pages/dashboard/DashboardPage.jsx";
 import { useChat } from "./services/chat/useChat.js";
 import {
   getSession,
@@ -17,7 +18,7 @@ function toErrorMessage(error, fallback) {
 }
 
 export function App() {
-  const [page, setPage] = useState("landing"); // "landing" | "chat"
+  const [page, setPage] = useState("landing"); // "landing" | "chat" | "dashboard"
   const chat = useChat();
 
   const [state, setState] = useState({
@@ -162,12 +163,25 @@ export function App() {
     return <ChatPage chat={chat} onBack={() => setPage("landing")} />;
   }
 
+  if (page === "dashboard") {
+    return (
+      <DashboardPage
+        session={state.session}
+        profile={state.profile}
+        onBack={() => setPage("landing")}
+        onLogout={handleLogout}
+        onOpenChat={() => setPage("chat")}
+      />
+    );
+  }
+
   return (
-    <LandingPage
+    <HomePage
       state={state}
       actions={actions}
       chat={chat}
       onOpenChatPage={() => setPage("chat")}
+      onOpenDashboard={() => setPage("dashboard")}
     />
   );
 }

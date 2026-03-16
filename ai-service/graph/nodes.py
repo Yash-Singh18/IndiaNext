@@ -1,3 +1,5 @@
+import time
+
 from graph.state import AgentState
 from services.memory_service import memory_service
 from services.llm_service import llm_service
@@ -9,19 +11,25 @@ from config.settings import settings
 
 async def load_memory(state: AgentState) -> dict:
     """Load conversation history from Redis."""
+    t = time.time()
     history = memory_service.get_history(state["session_id"])
+    print(f"[node] load_memory: {time.time()-t:.2f}s")
     return {"history": history}
 
 
 async def route_query(state: AgentState) -> dict:
     """Route the query using the router LLM."""
+    t = time.time()
     route = await llm_service.route_query(state["query"])
+    print(f"[node] route_query -> {route}: {time.time()-t:.2f}s")
     return {"route": route}
 
 
 async def rag_retrieve(state: AgentState) -> dict:
     """Run the full hybrid retrieval pipeline."""
+    t = time.time()
     chunks = await retrieve(state["query"], state["history"])
+    print(f"[node] rag_retrieve: {time.time()-t:.2f}s ({len(chunks)} chunks)")
     return {"retrieved_chunks": chunks}
 
 

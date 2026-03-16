@@ -20,6 +20,7 @@ async def transcribe_audio(audio_bytes: bytes) -> str:
             transcription = await client.audio.transcriptions.create(
                 model="whisper-large-v3",
                 file=audio_file,
+                language="hi",
                 response_format="text",
             )
         return transcription.strip()

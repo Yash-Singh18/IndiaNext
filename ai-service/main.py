@@ -18,10 +18,8 @@ async def lifespan(app: FastAPI):
     embedding_service.load()
     print("Embedding model ready.")
 
-    print("Loading reranker model...")
-    from services.reranker_service import reranker_service
-    reranker_service.load()
-    print("Reranker model ready.")
+    # Reranker skipped — too slow on CPU (30s+ per query).
+    # Using vector cosine similarity ranking instead.
 
     # Ensure Qdrant collection exists
     from services.vector_store import vector_store

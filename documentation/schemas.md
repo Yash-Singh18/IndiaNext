@@ -1,5 +1,9 @@
 # Database Schema Notes
 
+The homepage redesign under `frontend/src/pages/home` does not change the
+database schema. The frontend still depends on Supabase Auth plus the
+`public.profiles` table documented below.
+
 ## `public.profiles`
 
 Stores onboarding profile data separately from Supabase Auth.
