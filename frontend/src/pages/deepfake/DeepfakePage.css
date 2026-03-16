@@ -1,0 +1,468 @@
+/* ═══════════════════════════════════════════════════════════════════
+   NorthStar — Deepfake Detector Page
+   ═══════════════════════════════════════════════════════════════════ */
+
+.df-page {
+  min-height: 100vh;
+  background: #0a0e1a;
+  color: #e2e8f0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ── container / header ─────────────────────────────────────────── */
+
+.df-container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.df-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.df-header h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem;
+}
+
+.df-header p {
+  color: #94a3b8;
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ── upload section ─────────────────────────────────────────────── */
+
+.df-upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.df-dropzone {
+  width: 100%;
+  border: 2px dashed #334155;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: #0f172a;
+}
+
+.df-dropzone:hover,
+.df-dropzone-active {
+  border-color: #60a5fa;
+  background: #1e293b;
+}
+
+.df-dropzone-has-file {
+  border-color: #22c55e;
+  border-style: solid;
+}
+
+.df-drop-icon {
+  color: #475569;
+  margin-bottom: 0.75rem;
+}
+
+.df-drop-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.df-drop-sub {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0.25rem 0 0;
+}
+
+.df-file-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.df-file-badge {
+  background: #1e293b;
+  border: 1px solid #60a5fa;
+  color: #60a5fa;
+  padding: 0.2rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.df-file-name {
+  font-weight: 500;
+}
+
+.df-file-size {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+/* ── preview ────────────────────────────────────────────────────── */
+
+.df-preview {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+}
+
+.df-preview img,
+.df-preview video {
+  width: 100%;
+  display: block;
+}
+
+.df-preview audio {
+  width: 100%;
+  padding: 1rem;
+}
+
+/* ── buttons ────────────────────────────────────────────────────── */
+
+.df-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.df-btn {
+  padding: 0.7rem 1.8rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.df-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.df-btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  color: #fff;
+}
+
+.df-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.35);
+}
+
+.df-btn-ghost {
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+.df-btn-ghost:hover {
+  background: #1e293b;
+}
+
+/* ── processing / error ─────────────────────────────────────────── */
+
+.df-processing {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.df-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #1e293b;
+  border-top-color: #60a5fa;
+  border-radius: 50%;
+  animation: df-spin 0.7s linear infinite;
+  margin: 0 auto 0.75rem;
+}
+
+@keyframes df-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.df-processing p {
+  color: #94a3b8;
+  margin: 0;
+}
+
+.df-processing-sub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.df-error {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.25rem;
+  width: 100%;
+}
+
+.df-error p {
+  margin: 0;
+  color: #f87171;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Results
+   ═══════════════════════════════════════════════════════════════════ */
+
+.df-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+/* ── score hero ─────────────────────────────────────────────────── */
+
+.df-score-hero {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.df-score-ring {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.df-score-ring svg {
+  width: 100%;
+  height: 100%;
+}
+
+.df-score-ring circle:last-child {
+  transition: stroke-dasharray 1s ease-out;
+}
+
+.df-score-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--sc);
+  padding-bottom: 0.6rem;
+}
+
+.df-score-lbl {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.df-risk-badge {
+  display: inline-block;
+  padding: 0.35rem 1.4rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.df-media-tag {
+  color: #64748b;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* ── shared card ────────────────────────────────────────────────── */
+
+.df-card {
+  width: 100%;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.df-card h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.2rem;
+}
+
+.df-card-sub {
+  color: #64748b;
+  font-size: 0.82rem;
+  margin: 0 0 1rem;
+}
+
+/* ── heatmap grid ───────────────────────────────────────────────── */
+
+.df-heatmap-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.df-hm-panel {
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.df-hm-panel h3 {
+  padding: 0.65rem 0.9rem 0.4rem;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin: 0;
+}
+
+.df-hm-panel img {
+  width: 100%;
+  display: block;
+}
+
+.df-frame-tag {
+  display: block;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.72rem;
+  color: #60a5fa;
+  background: #0f172a;
+}
+
+/* ── indicators ─────────────────────────────────────────────────── */
+
+.df-ind-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.df-ind {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 10px;
+  background: #1e293b;
+}
+
+.df-ind-hit {
+  border-left: 3px solid #ef4444;
+}
+
+.df-ind-ok {
+  border-left: 3px solid #22c55e;
+}
+
+.df-ind-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.df-ind strong {
+  display: block;
+  font-size: 0.88rem;
+}
+
+.df-ind p {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0.15rem 0 0;
+}
+
+/* ── explanation ────────────────────────────────────────────────── */
+
+.df-explanation-text {
+  color: #cbd5e1;
+  line-height: 1.65;
+  margin: 0.5rem 0 0;
+}
+
+/* ── frame bars (video) ─────────────────────────────────────────── */
+
+.df-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  height: 110px;
+  margin-top: 0.75rem;
+}
+
+.df-bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.df-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  min-height: 3px;
+  transition: height 0.6s ease-out;
+}
+
+.df-bar-lbl {
+  font-size: 0.62rem;
+  color: #64748b;
+  margin-top: 0.2rem;
+}
+
+/* ── audio line ─────────────────────────────────────────────────── */
+
+.df-audio-line {
+  font-size: 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.df-audio-line strong {
+  font-size: 1.2rem;
+}
+
+/* ── responsive ─────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .df-heatmap-grid {
+    grid-template-columns: 1fr;
+  }
+  .df-container {
+    padding: 1rem;
+  }
+  .df-header h1 {
+    font-size: 1.6rem;
+  }
+}

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { HomePage } from "./pages/home/HomePage.jsx";
 import { ChatPage } from "./pages/chat/ChatPage.jsx";
 import { DashboardPage } from "./pages/dashboard/DashboardPage.jsx";
+import { SubscriptionPage } from "./pages/subscription/SubscriptionPage.jsx";
+import { DeepfakePage } from "./pages/deepfake/DeepfakePage.jsx";
 import { useChat } from "./services/chat/useChat.js";
 import {
   getSession,
@@ -163,14 +165,51 @@ export function App() {
     return <ChatPage chat={chat} onBack={() => setPage("landing")} />;
   }
 
-  if (page === "dashboard") {
+  if (page === "subscription") {
+    return (
+      <SubscriptionPage
+        session={state.session}
+        profile={state.profile}
+        authLoading={state.authLoading}
+        onHome={() => setPage("landing")}
+        onChat={() => setPage("chat")}
+        onDashboard={() => setPage("dashboard")}
+        onLogin={actions.onOpenLogin}
+        onLogout={actions.onLogout}
+
+      />
+    );
+  }
+
+if (page === "deepfake") {
+    return (
+      <DeepfakePage
+        session={state.session}
+        profile={state.profile}
+        authLoading={state.authLoading}
+        onHome={() => setPage("landing")}
+        onChat={() => setPage("chat")}
+        onDashboard={() => setPage("dashboard")}
+        onLogin={actions.onOpenLogin}
+        onLogout={actions.onLogout}
+        onSubscription={() => setPage("subscription")}
+        onDeepfake={() => setPage("deepfake")}
+      />
+    );
+  }
+
+if (page === "dashboard") {
     return (
       <DashboardPage
         session={state.session}
         profile={state.profile}
+        authLoading={state.authLoading}
         onBack={() => setPage("landing")}
         onLogout={handleLogout}
         onOpenChat={() => setPage("chat")}
+        onLogin={actions.onOpenLogin}
+        onSubscription={() => setPage("subscription")}
+
       />
     );
   }
@@ -182,6 +221,9 @@ export function App() {
       chat={chat}
       onOpenChatPage={() => setPage("chat")}
       onOpenDashboard={() => setPage("dashboard")}
+      onSubscription={() => setPage("subscription")}
+      onAdmin={() => setPage("admin")}
+      onDeepfake={() => setPage("deepfake")}
     />
   );
 }

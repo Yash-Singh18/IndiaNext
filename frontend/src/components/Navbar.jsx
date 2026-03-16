@@ -4,7 +4,7 @@ const NAV_ITEMS = [
   { label: "Home", id: "home", href: "#home" },
   { label: "Threat Scanner", id: "scanner", href: "#scanner" },
   { label: "Detect Phishing", id: "dashboard", href: "#dashboard" },
-  { label: "Logs", id: "logs", href: "#logs" },
+  { label: "Detect Deepfake", id: "deepfake", href: "#deepfake" },
   { label: "About", id: "about", href: "#about" },
 ];
 
@@ -19,6 +19,8 @@ export function Navbar({
   onDashboard,
   onLogin,
   onLogout,
+  onSubscription,
+  onDeepfake,
 }) {
   function handleNavClick(e, item) {
     if (item.id === "dashboard") {
@@ -37,7 +39,13 @@ export function Navbar({
       return;
     }
 
-    // Home, Logs, About — if we're NOT on the homepage, navigate there first
+    if (item.id === "deepfake") {
+      e.preventDefault();
+      onDeepfake?.();
+      return;
+    }
+
+    // Home, About — if we're NOT on the homepage, navigate there first
     if (activePage !== "home") {
       e.preventDefault();
       onHome?.();
@@ -70,6 +78,14 @@ export function Navbar({
         <div className="ns-nav-actions">
           {session ? (
             <>
+              <div
+                className={`ns-tier-badge ns-tier-${profile?.subscription_tier || 'free'}`}
+                onClick={onSubscription}
+                role="button"
+                tabIndex={0}
+              >
+                {(profile?.subscription_tier || 'free').toUpperCase()}
+              </div>
               <span className="ns-user-chip">
                 @{profile?.username ?? "user"}
               </span>

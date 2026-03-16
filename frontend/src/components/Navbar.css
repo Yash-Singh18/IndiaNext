@@ -143,6 +143,42 @@
   flex-shrink: 0;
 }
 
+.ns-tier-badge {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+  user-select: none;
+}
+
+.ns-tier-badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.ns-tier-free {
+  background: #e2e8f0;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+.ns-tier-pro {
+  background: linear-gradient(135deg, #fef08a, #facc15);
+  color: #854d0e;
+  border: 1px solid #eab308;
+  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.2);
+}
+
+.ns-tier-enterprise {
+  background: linear-gradient(135deg, #e9d5ff, #a855f7);
+  color: white;
+  border: 1px solid #9333ea;
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.25);
+}
+
 .ns-user-chip {
   padding: 0.55rem 0.85rem;
   font-size: 0.82rem;

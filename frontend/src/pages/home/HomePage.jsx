@@ -31,12 +31,12 @@ const FEATURE_SECTIONS = [
     cta: "Review Insights",
   },
   {
-    id: "logs",
-    eyebrow: "Logs",
-    title: "Keep a history of alerts, summaries, and defensive actions.",
+    id: "deepfake",
+    eyebrow: "Deepfake Detector",
+    title: "Detect AI-generated images, videos, and audio with Grad-CAM visualization.",
     copy:
-      "NorthStar supports an incident-ready workflow with alert tracking, investigation context, and response summaries so suspicious events are easier to review, compare, and escalate.",
-    cta: "View Activity",
+      "Upload media to analyze it for deepfake manipulation. NorthStar uses CNN-based detection with Grad-CAM heatmaps to show exactly which regions triggered suspicion, backed by an LLM-powered forensic explanation.",
+    cta: "Detect Deepfake",
   },
 ];
 
@@ -77,7 +77,7 @@ function FooterIcon({ name }) {
   );
 }
 
-export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard }) {
+export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard, onSubscription, onAdmin, onDeepfake }) {
   const [chatOpen, setChatOpen] = useState(false);
 
   return (
@@ -93,6 +93,9 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
         onDashboard={onOpenDashboard}
         onLogin={actions.onOpenLogin}
         onLogout={actions.onLogout}
+        onSubscription={onSubscription}
+        onAdmin={onAdmin}
+        onDeepfake={onDeepfake}
       />
 
       <AuthChoiceModal
@@ -209,9 +212,11 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
                   onClick={
                     section.id === "dashboard"
                       ? (state.session ? onOpenDashboard : actions.onOpenLogin)
-                      : state.session || section.id === "scanner"
-                        ? onOpenChatPage
-                        : actions.onOpenLogin
+                      : section.id === "deepfake"
+                        ? onDeepfake
+                        : state.session || section.id === "scanner"
+                          ? onOpenChatPage
+                          : actions.onOpenLogin
                   }
                 >
                   {section.cta}

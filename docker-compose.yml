@@ -50,5 +50,19 @@ services:
       - 8.8.4.4
     restart: unless-stopped
 
+  deepfake-service:
+    build: ./deepfake-service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./deepfake-service/.env
+    volumes:
+      - ./deepfake-service:/app
+      - hf_cache:/root/.cache/huggingface
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+
 volumes:
   hf_cache:

@@ -3,17 +3,25 @@ import { getSupabaseClient } from "../supabase/client.js";
 export async function getProfile(userId) {
   try {
     const supabase = await getSupabaseClient();
+
+    // Try full select including new subscription columns
     const { data, error } = await supabase
+      .from("profiles")
+      .select("id, name, username, dob, created_at, subscription_tier, credits_used, credits_reset_at, is_admin")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (!error) return data;
+
+    // Fall back to base columns if DB migration hasn't run yet
+    const { data: fallback, error: fallbackError } = await supabase
       .from("profiles")
       .select("id, name, username, dob, created_at")
       .eq("id", userId)
       .maybeSingle();
 
-    if (error) {
-      throw error;
-    }
-
-    return data;
+    if (fallbackError) throw fallbackError;
+    return fallback;
   } catch (error) {
     throw toServiceError(error, "Unable to load the profile record.");
   }
@@ -34,7 +42,7 @@ export async function saveProfile(userId, input) {
       : supabase.from("profiles").insert(payload);
 
     const { data, error } = await query
-      .select("id, name, username, dob, created_at")
+      .select("id, name, username, dob, created_at, subscription_tier, credits_used, credits_reset_at, is_admin")
       .single();
 
     if (error) {

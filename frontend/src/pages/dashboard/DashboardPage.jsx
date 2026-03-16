@@ -78,7 +78,7 @@ function ThreatBar({ label, value }) {
   );
 }
 
-export function DashboardPage({ session, profile, onBack, onLogout, onOpenChat }) {
+export function DashboardPage({ session, profile, authLoading, onBack, onLogout, onOpenChat, onLogin, onSubscription, onAdmin }) {
   const [tab, setTab] = useState("paste");
   const [sender, setSender] = useState("");
   const [subject, setSubject] = useState("");
@@ -159,11 +159,14 @@ export function DashboardPage({ session, profile, onBack, onLogout, onOpenChat }
         activePage="dashboard"
         session={session}
         profile={profile}
+        authLoading={authLoading}
         onHome={onBack}
         onChat={onOpenChat}
         onDashboard={() => {}}
-        onLogin={() => {}}
+        onLogin={onLogin}
         onLogout={onLogout}
+        onSubscription={onSubscription}
+        onAdmin={onAdmin}
       />
 
       {!started ? (
