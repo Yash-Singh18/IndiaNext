@@ -1,6 +1,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { ChatMessage } from "../../components/ChatMessage.jsx";
 import { ChatInput } from "../../components/ChatInput.jsx";
+import { CyberBackground } from "../../components/CyberBackground.jsx";
 import "./ChatPage.css";
 
 export function ChatPage({ chat, onBack }) {
@@ -20,6 +21,9 @@ export function ChatPage({ chat, onBack }) {
 
   return (
     <div className="cp-root">
+      {/* Three.js Cyber Background */}
+      <CyberBackground />
+
       {/* Top bar */}
       <header className="cp-topbar">
         <button className="cp-back-btn" onClick={onBack} aria-label="Back to home">
@@ -28,13 +32,13 @@ export function ChatPage({ chat, onBack }) {
           </svg>
         </button>
         <div className="cp-topbar-brand">
-          <span className="cp-brand-star">&#10022;</span>
+          <span className="cp-brand-star">◆</span>
           <span>NorthStar AI</span>
         </div>
         <div className="cp-topbar-right">
           <div className="cp-connection">
             <div className={`chat-status-dot ${chat.connected ? "chat-status-online" : ""}`} />
-            <span>{chat.connected ? "Connected" : "Connecting..."}</span>
+            <span>{chat.connected ? "SECURE" : "CONNECTING..."}</span>
           </div>
           <button className="cp-clear-btn" onClick={chat.clearMessages}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="14" height="14">

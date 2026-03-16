@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import anime from "animejs/lib/anime.es.js";
 
 export function ChatMessage({ message }) {
   const [sourcesExpanded, setSourcesExpanded] = useState(false);
+  const msgRef = useRef(null);
   const isUser = message.role === "user";
 
+  useEffect(() => {
+    if (msgRef.current) {
+      anime({
+        targets: msgRef.current,
+        opacity: [0, 1],
+        translateY: [12, 0],
+        duration: 400,
+        easing: "easeOutCubic",
+      });
+    }
+  }, []);
+
   return (
-    <div className={`chat-msg ${isUser ? "chat-msg-user" : "chat-msg-ai"}`}>
+    <div
+      ref={msgRef}
+      className={`chat-msg ${isUser ? "chat-msg-user" : "chat-msg-ai"}`}
+      style={{ opacity: 0 }}
+    >
       {!isUser && (
         <div className="chat-msg-avatar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
@@ -23,6 +41,19 @@ export function ChatMessage({ message }) {
 
         {message.confidence != null && message.confidence > 0 && (
           <span className={`chat-confidence ${getConfidenceClass(message.confidence)}`}>
+            <span style={{
+              display: "inline-block",
+              width: "5px",
+              height: "5px",
+              borderRadius: "50%",
+              marginRight: "5px",
+              background: message.confidence >= 0.7 ? "var(--neon-green)" :
+                         message.confidence >= 0.4 ? "var(--neon-yellow)" : "#ff5252",
+              boxShadow: `0 0 6px ${
+                message.confidence >= 0.7 ? "rgba(0,255,136,0.6)" :
+                message.confidence >= 0.4 ? "rgba(255,221,0,0.6)" : "rgba(255,82,82,0.6)"
+              }`,
+            }} />
             {Math.round(message.confidence * 100)}% confidence
           </span>
         )}

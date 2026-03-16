@@ -1,12 +1,12 @@
-/* ProfileSetupModal.css — onboarding profile form overlay */
+/* ProfileSetupModal.css — Cybersecurity Theme */
 
 .psm-backdrop {
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(10, 22, 10, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(5, 8, 18, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,11 +14,12 @@
 }
 
 .psm-card {
-  background: #ffffff;
+  background: var(--cyber-surface-elevated);
+  border: 1px solid rgba(0, 243, 255, 0.12);
   border-radius: 20px;
   padding: clamp(2rem, 5vw, 2.8rem) clamp(1.5rem, 5vw, 3rem);
   width: min(100%, 460px);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-elevated);
   animation: psm-in 320ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
@@ -39,40 +40,42 @@
 
 .psm-eyebrow {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #2E7D32;
-  background: rgba(46, 125, 50, 0.08);
+  color: var(--neon-cyan);
+  background: rgba(0, 243, 255, 0.06);
   padding: 0.3rem 0.9rem;
   border-radius: 9999px;
+  border: 1px solid rgba(0, 243, 255, 0.15);
   margin-bottom: 0.9rem;
+  text-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
 }
 
 .psm-title {
   margin: 0 0 0.4rem;
   font-size: 1.6rem;
   font-weight: 900;
-  color: #1B5E20;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
 .psm-sub {
   margin: 0;
-  font-size: 0.9rem;
-  color: #64748B;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .psm-error {
   margin: 0 0 1rem;
   padding: 0.7rem 1rem;
-  background: rgba(181, 59, 59, 0.08);
-  border: 1px solid rgba(181, 59, 59, 0.22);
+  background: rgba(255, 82, 82, 0.08);
+  border: 1px solid rgba(255, 82, 82, 0.2);
   border-radius: 10px;
-  color: #b53b3b;
-  font-size: 0.88rem;
+  color: #ff5252;
+  font-size: 0.85rem;
   line-height: 1.4;
 }
 
@@ -89,33 +92,32 @@
 }
 
 .psm-label {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: #1E293B;
+  color: var(--text-secondary);
 }
 
 .psm-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1.5px solid rgba(29, 35, 48, 0.15);
+  border: 1px solid var(--cyber-border);
   border-radius: 10px;
   font: inherit;
-  font-size: 0.95rem;
-  color: #1E293B;
-  background: #F8FAF8;
-  transition: border-color 140ms, box-shadow 140ms;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  background: rgba(10, 14, 26, 0.8);
+  transition: border-color 200ms, box-shadow 200ms;
   outline: none;
   box-sizing: border-box;
 }
 
 .psm-input:focus {
-  border-color: #2E7D32;
-  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
-  background: #fff;
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.1);
 }
 
 .psm-input:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -131,9 +133,10 @@
   left: 1rem;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #2E7D32;
+  color: var(--neon-cyan);
   pointer-events: none;
   user-select: none;
+  text-shadow: 0 0 6px rgba(0, 243, 255, 0.3);
 }
 
 .psm-input--prefixed {
@@ -141,14 +144,14 @@
 }
 
 .psm-hint {
-  font-size: 0.78rem;
-  color: #94A3B8;
+  font-size: 0.75rem;
+  color: var(--text-muted);
   line-height: 1.4;
 }
 
 .psm-submit {
   margin-top: 0.4rem;
-  background: linear-gradient(135deg, #D4AF37, #4CAF50, #2E7D32);
+  background: var(--grad-cyber);
   color: #fff;
   border: none;
   border-radius: 9999px;
@@ -157,18 +160,18 @@
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.35);
-  transition: opacity 140ms, transform 120ms, box-shadow 140ms;
+  box-shadow: 0 4px 20px rgba(0, 243, 255, 0.25);
+  transition: all 200ms;
 }
 
 .psm-submit:hover:not(:disabled) {
-  opacity: 0.92;
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(46, 125, 50, 0.45);
+  box-shadow: var(--glow-cyan), 0 4px 20px rgba(185, 78, 255, 0.2);
+  filter: brightness(1.1);
 }
 
 .psm-submit:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }

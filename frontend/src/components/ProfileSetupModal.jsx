@@ -17,7 +17,19 @@ export function ProfileSetupModal({ isSaving, error, onSubmit }) {
     <div className="psm-backdrop">
       <div className="psm-card" role="dialog" aria-modal="true" aria-labelledby="psm-title">
         <div className="psm-header">
-          <span className="psm-eyebrow">Welcome to NorthStar</span>
+          <span className="psm-eyebrow">
+            <span style={{
+              display: "inline-block",
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: "var(--neon-green)",
+              boxShadow: "0 0 8px rgba(0,255,136,0.5)",
+              marginRight: "6px",
+              verticalAlign: "middle",
+            }} />
+            Welcome to NorthStar
+          </span>
           <h2 id="psm-title" className="psm-title">Complete your profile</h2>
           <p className="psm-sub">Just a few details to get you started on your journey.</p>
         </div>
@@ -75,9 +87,29 @@ export function ProfileSetupModal({ isSaving, error, onSubmit }) {
           </div>
 
           <button className="psm-submit" type="submit" disabled={isSaving}>
-            {isSaving ? "Saving…" : "Save & Continue →"}
+            {isSaving ? (
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
+                <span style={{
+                  width: "16px",
+                  height: "16px",
+                  border: "2px solid rgba(255,255,255,0.2)",
+                  borderTopColor: "#fff",
+                  borderRadius: "50%",
+                  animation: "psm-spin 0.8s linear infinite",
+                }} />
+                Saving…
+              </span>
+            ) : (
+              "Save & Continue →"
+            )}
           </button>
         </form>
+
+        <style>{`
+          @keyframes psm-spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     </div>
   );

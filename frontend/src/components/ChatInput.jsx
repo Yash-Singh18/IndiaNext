@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 export function ChatInput({ onSend, onSendAudio, disabled }) {
   const [text, setText] = useState("");
   const [recording, setRecording] = useState(false);
+  const [focused, setFocused] = useState(false);
   const mediaRecorderRef = useRef(null);
   const chunksRef = useRef([]);
 
@@ -51,7 +52,14 @@ export function ChatInput({ onSend, onSendAudio, disabled }) {
   };
 
   return (
-    <div className="chat-input-bar">
+    <div
+      className="chat-input-bar"
+      style={{
+        borderColor: focused ? "rgba(0, 243, 255, 0.25)" : undefined,
+        boxShadow: focused ? "0 0 20px rgba(0, 243, 255, 0.06)" : undefined,
+        transition: "border-color 200ms, box-shadow 200ms",
+      }}
+    >
       <button
         className={`chat-mic-btn ${recording ? "chat-mic-active" : ""}`}
         onClick={toggleRecording}
@@ -76,6 +84,8 @@ export function ChatInput({ onSend, onSendAudio, disabled }) {
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         placeholder="Ask NorthStar AI..."
         rows={1}
         disabled={disabled}
@@ -86,6 +96,11 @@ export function ChatInput({ onSend, onSendAudio, disabled }) {
         onClick={handleSend}
         disabled={!text.trim() || disabled}
         aria-label="Send message"
+        style={{
+          background: text.trim() && !disabled
+            ? "linear-gradient(135deg, rgba(0, 243, 255, 0.12), rgba(185, 78, 255, 0.12))"
+            : undefined,
+        }}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
           <line x1="22" y1="2" x2="11" y2="13" />
