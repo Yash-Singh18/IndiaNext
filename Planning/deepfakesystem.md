@@ -90,5 +90,4 @@ you are like a senior dev to me soo you can recommend me any other way as we wil
 you tell me exactly what thing you require from my side and i will give you everything you need
 
 
-hugging face   REDACTED_HF_TOKEN
-Groq  REDACTED_GROQ_KEY
+API keys: (set in .env files - see .env.example)

@@ -253,4 +253,4 @@ Response:
 
 Model never receives the prompt.
 
-here is groq api key : REDACTED_GROQ_KEY
+API keys: (set in .env files - see .env.example)

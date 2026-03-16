@@ -11,12 +11,20 @@ venv/
 
 # AI Service
 ai-service/models_cache/
+
+# Data directories
 qdrant_storage/
 redis_data/
 
 # Node
 node_modules/
 dist/
+
+# Build artifacts
+frontend/dist/
+
+# Large files
+docspdf/
 
 # IDE
 .vscode/

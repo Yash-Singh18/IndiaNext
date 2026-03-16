@@ -472,17 +472,7 @@ security blogs
 phishing databases
 ```
 
-api keys:
-IndiaNext1 : REDACTED_GROQ_KEY
-IndiaNext2 : REDACTED_GROQ_KEY
-
-
-things you needed :
-supabase safe key : REDACTED_SUPABASE_SERVICE_ROLE_JWT
-
-VirusTotalApiKey : REDACTED_VIRUSTOTAL_KEY
+api keys: (set in .env files - see .env.example)
 
 check port yourself and decide accordingly
-
-i will add google safe key in .env you just give me the direction where i need to add it 
 
