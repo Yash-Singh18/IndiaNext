@@ -14,6 +14,10 @@ logger = logging.getLogger(__name__)
 HF_API_URL = "https://api-inference.huggingface.co/models/{model_id}"
 
 
+class AudioDetectionError(RuntimeError):
+    """Raised when the upstream audio model cannot be used."""
+
+
 class DeepfakeAudioDetector:
     def __init__(self, model_id: str, hf_token: str):
         self.url = HF_API_URL.format(model_id=model_id)
@@ -27,9 +31,15 @@ class DeepfakeAudioDetector:
 
         # HF Inference API cold-start retry
         for attempt in range(3):
-            resp = requests.post(
-                self.url, headers=self.headers, data=data, timeout=120
-            )
+            try:
+                resp = requests.post(
+                    self.url, headers=self.headers, data=data, timeout=120
+                )
+            except requests.RequestException as exc:
+                raise AudioDetectionError(
+                    "Audio analysis is temporarily unavailable."
+                ) from exc
+
             if resp.status_code == 503:
                 wait = min(resp.json().get("estimated_time", 20), 30)
                 logger.info(
@@ -39,10 +49,24 @@ class DeepfakeAudioDetector:
                 )
                 time.sleep(wait)
                 continue
-            resp.raise_for_status()
+
+            if resp.status_code == 410:
+                raise AudioDetectionError(
+                    "Audio analysis is currently unavailable because the upstream "
+                    "model endpoint is gone."
+                )
+
+            try:
+                resp.raise_for_status()
+            except requests.HTTPError as exc:
+                raise AudioDetectionError(
+                    f"Audio analysis failed with upstream status {resp.status_code}."
+                ) from exc
             break
         else:
-            raise RuntimeError("Audio model unavailable after 3 retries")
+            raise AudioDetectionError(
+                "Audio analysis is temporarily unavailable after multiple retries."
+            )
 
         results = resp.json()
 

@@ -16,11 +16,11 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 
+from explainer import LLMExplainer
+from audio_detector import AudioDetectionError, DeepfakeAudioDetector
 from config import settings
 from image_detector import DeepfakeImageDetector
-from audio_detector import DeepfakeAudioDetector
 from video_processor import VideoProcessor
-from explainer import LLMExplainer
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,7 +47,9 @@ async def lifespan(_app: FastAPI):
     audio_detector = DeepfakeAudioDetector(
         settings.AUDIO_MODEL_ID, settings.HF_API_TOKEN
     )
-    video_processor = VideoProcessor(image_detector, audio_detector)
+    video_processor = VideoProcessor(
+        image_detector, audio_detector, max_frames=settings.MAX_VIDEO_FRAMES
+    )
     explainer = LLMExplainer(settings.GROQ_API_KEY, settings.GROQ_MODEL)
 
     logger.info("All detectors initialised — service ready")
@@ -144,6 +146,8 @@ async def detect(file: UploadFile = File(...)):
                 extra_ctx += (
                     f"\n- Audio FakeScore: {vr['audio_result']['fake_score']}"
                 )
+            elif vr["audio_warning"]:
+                extra_ctx += f"\n- Audio analysis warning: {vr['audio_warning']}"
 
             result = {
                 "media_type": "video",
@@ -154,6 +158,7 @@ async def detect(file: UploadFile = File(...)):
                 "heatmap": vr["heatmap"],
                 "top_frame": vr["top_frame"],
                 "audio_result": vr["audio_result"],
+                "audio_warning": vr["audio_warning"],
                 "label_scores": {},
             }
 
@@ -185,6 +190,20 @@ async def detect(file: UploadFile = File(...)):
             result["risk_level"] = _fallback_risk(result["fake_score"])
 
         return result
+    except HTTPException:
+        raise
+    except AudioDetectionError as exc:
+        logger.warning("Audio analysis unavailable for '%s': %s", file.filename, exc)
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except ValueError as exc:
+        logger.warning("Invalid deepfake input '%s': %s", file.filename, exc)
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:
+        logger.exception("Deepfake detection failed for '%s': %s", file.filename, exc)
+        raise HTTPException(
+            status_code=500,
+            detail="Deepfake detection failed during processing.",
+        ) from exc
 
     finally:
         os.unlink(tmp.name)

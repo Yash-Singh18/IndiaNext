@@ -358,19 +358,24 @@ export function DeepfakePage({
             )}
 
             {/* Audio sub-result (video with audio track) */}
-            {result.audio_result && (
+            {(result.audio_result || result.audio_warning) && (
               <section className="df-card">
                 <h2>Audio Analysis</h2>
-                <p className="df-audio-line">
-                  Audio FakeScore:{" "}
-                  <strong
-                    style={{
-                      color: scoreColor(result.audio_result.fake_score),
-                    }}
-                  >
-                    {result.audio_result.fake_score} / 100
-                  </strong>
-                </p>
+                {result.audio_result && (
+                  <p className="df-audio-line">
+                    Audio FakeScore:{" "}
+                    <strong
+                      style={{
+                        color: scoreColor(result.audio_result.fake_score),
+                      }}
+                    >
+                      {result.audio_result.fake_score} / 100
+                    </strong>
+                  </p>
+                )}
+                {result.audio_warning && (
+                  <p className="df-audio-line">{result.audio_warning}</p>
+                )}
               </section>
             )}
 

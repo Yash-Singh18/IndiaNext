@@ -12,6 +12,7 @@ import tempfile
 import cv2
 import numpy as np
 from PIL import Image
+from audio_detector import AudioDetectionError
 
 logger = logging.getLogger(__name__)
 
@@ -86,10 +87,19 @@ class VideoProcessor:
 
         # ── Audio track analysis (if present) ────────────────────────
         audio_result = None
+        audio_warning = None
         audio_path = self.extract_audio(video_path)
         if audio_path:
             try:
                 audio_result = self.audio_det.detect(audio_path)
+            except AudioDetectionError as exc:
+                audio_warning = str(exc)
+                logger.warning(
+                    "Audio analysis unavailable for %s: %s", video_path, exc
+                )
+            except Exception as exc:
+                audio_warning = "Audio analysis failed for this video."
+                logger.warning("Audio analysis failed for %s: %s", video_path, exc)
             finally:
                 os.unlink(audio_path)
 
@@ -101,4 +111,5 @@ class VideoProcessor:
             "heatmap": heatmap_b64,
             "top_frame": top_frame_b64,
             "audio_result": audio_result,
+            "audio_warning": audio_warning,
         }
