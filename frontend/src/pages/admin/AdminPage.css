@@ -290,6 +290,60 @@
   font-size: 0.9rem;
 }
 
+/* Tabs */
+.admin-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.admin-tab {
+  padding: 0.65rem 1.2rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: -2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.15s;
+}
+
+.admin-tab:hover { color: var(--color-text); }
+
+.admin-tab-active {
+  color: var(--color-accent, #1b5e20);
+  border-bottom-color: var(--color-accent, #1b5e20);
+}
+
+.admin-tab-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+.ad-username {
+  font-weight: 700;
+  color: var(--color-accent, #1b5e20);
+}
+
+.ad-score {
+  font-weight: 700;
+  color: var(--color-text);
+  font-size: 0.95rem;
+}
+
 /* Actions */
 .admin-actions {
   display: flex;
@@ -318,4 +372,18 @@
 .aa-reject {
   background: var(--color-danger);
   color: white;
+}
+
+/* ── Notification form ── */
+.admin-notif-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.admin-notif-textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: inherit;
 }

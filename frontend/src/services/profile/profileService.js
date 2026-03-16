@@ -7,7 +7,7 @@ export async function getProfile(userId) {
     // Try full select including new subscription columns
     const { data, error } = await supabase
       .from("profiles")
-      .select("id, name, username, dob, created_at, subscription_tier, credits_used, credits_reset_at, is_admin")
+      .select("id, name, username, dob, created_at, subscription_tier, credits_used, credits_reset_at, is_admin, user_type, social_score")
       .eq("id", userId)
       .maybeSingle();
 

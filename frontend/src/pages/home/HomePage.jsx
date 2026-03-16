@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AuthChoiceModal } from "../../components/AuthChoiceModal.jsx";
+import { AskExpertModal } from "../../components/AskExpertModal.jsx";
 import { ChatPanel } from "../../components/ChatPanel.jsx";
 import { Navbar } from "../../components/Navbar.jsx";
 import { ProfileSetupModal } from "../../components/ProfileSetupModal.jsx";
@@ -37,6 +38,14 @@ const FEATURE_SECTIONS = [
     copy:
       "Upload media to analyze it for deepfake manipulation. NorthStar uses CNN-based detection with Grad-CAM heatmaps to show exactly which regions triggered suspicion, backed by an LLM-powered forensic explanation.",
     cta: "Detect Deepfake",
+  },
+  {
+    id: "community",
+    eyebrow: "Ask Community",
+    title: "Get help from verified cybersecurity experts in real time.",
+    copy:
+      "Unsure about a suspicious link, scam call, or phishing attempt? Post your question and connect directly with a NorthStar-verified Cyber Expert via live private chat.",
+    cta: "Ask an Expert",
   },
 ];
 
@@ -77,8 +86,9 @@ function FooterIcon({ name }) {
   );
 }
 
-export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard, onSubscription, onAdmin, onDeepfake }) {
+export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard, onSubscription, onAdmin, onDeepfake, onApplyExpert, onExpertDashboard, onCommunityChat, onServices }) {
   const [chatOpen, setChatOpen] = useState(false);
+  const [askExpertOpen, setAskExpertOpen] = useState(false);
 
   return (
     <div className="home-root">
@@ -96,6 +106,10 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
         onSubscription={onSubscription}
         onAdmin={onAdmin}
         onDeepfake={onDeepfake}
+        onApplyExpert={onApplyExpert}
+        onExpertDashboard={onExpertDashboard}
+        onCommunityChat={onCommunityChat}
+        onServices={onServices}
       />
 
       <AuthChoiceModal
@@ -144,9 +158,9 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
               </button>
               <button
                 className="home-secondary-button"
-                onClick={state.session ? onOpenChatPage : actions.onOpenLogin}
+                onClick={state.session ? () => setAskExpertOpen(true) : actions.onOpenLogin}
               >
-                {state.session ? "Open Workspace" : "Access NorthStar"}
+                Ask Community
               </button>
             </div>
           </div>
@@ -214,9 +228,11 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
                       ? (state.session ? onOpenDashboard : actions.onOpenLogin)
                       : section.id === "deepfake"
                         ? onDeepfake
-                        : state.session || section.id === "scanner"
-                          ? onOpenChatPage
-                          : actions.onOpenLogin
+                        : section.id === "community"
+                          ? (state.session ? () => setAskExpertOpen(true) : actions.onOpenLogin)
+                          : state.session || section.id === "scanner"
+                            ? onOpenChatPage
+                            : actions.onOpenLogin
                   }
                 >
                   {section.cta}
@@ -293,6 +309,13 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
           </div>
         </div>
       </footer>
+
+      <AskExpertModal
+        isOpen={askExpertOpen}
+        session={state.session}
+        profile={state.profile}
+        onClose={() => setAskExpertOpen(false)}
+      />
 
       <ChatPanel
         isOpen={chatOpen}

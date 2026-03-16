@@ -44,6 +44,7 @@ export function DeepfakePage({
   onLogout,
   onSubscription,
   onDeepfake,
+  onServices,
 }) {
   const [status, setStatus] = useState("idle");
   const [file, setFile] = useState(null);
@@ -122,6 +123,7 @@ export function DeepfakePage({
         onLogout={onLogout}
         onSubscription={onSubscription}
         onDeepfake={onDeepfake}
+        onServices={onServices}
       />
 
       <div className="df-container">

@@ -44,7 +44,7 @@ const PLANS = [
   },
 ];
 
-export function SubscriptionPage({ session, profile, authLoading, onHome, onChat, onDashboard, onLogin, onLogout, onAdmin }) {
+export function SubscriptionPage({ session, profile, authLoading, onHome, onChat, onDashboard, onLogin, onLogout, onAdmin, onServices }) {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState(null);
@@ -116,6 +116,7 @@ export function SubscriptionPage({ session, profile, authLoading, onHome, onChat
         onLogin={onLogin}
         onLogout={onLogout}
         onAdmin={onAdmin}
+        onServices={onServices}
       />
 
       <main className="sub-main">

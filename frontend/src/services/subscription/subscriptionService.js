@@ -135,10 +135,10 @@ export async function approveRequest(requestId) {
   if (req) {
     try {
       const supabase = await getSupabaseClient();
-      const { error } = await supabase
-        .from("profiles")
-        .update({ subscription_tier: req.requested_tier })
-        .eq("id", req.user_id);
+      const { error } = await supabase.rpc("approve_subscription", {
+        p_user_id: req.user_id,
+        p_tier: req.requested_tier,
+      });
       if (error) throw error;
     } catch (err) {
       console.error("Failed to update subscription tier in DB:", err);

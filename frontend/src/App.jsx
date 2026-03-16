@@ -1,9 +1,14 @@
-import { useState, useEffect } from "react";
-import { HomePage } from "./pages/home/HomePage.jsx";
+import { useState, useEffect, useRef } from "react";
+import { AdminPage } from "./pages/admin/AdminPage.jsx";
+import { ServicesPage } from "./pages/services/ServicesPage.jsx";
+import { ApplyExpertPage } from "./pages/applyExpert/ApplyExpertPage.jsx";
 import { ChatPage } from "./pages/chat/ChatPage.jsx";
+import { CommunityChatPage } from "./pages/communityChat/CommunityChatPage.jsx";
 import { DashboardPage } from "./pages/dashboard/DashboardPage.jsx";
-import { SubscriptionPage } from "./pages/subscription/SubscriptionPage.jsx";
 import { DeepfakePage } from "./pages/deepfake/DeepfakePage.jsx";
+import { ExpertDashboardPage } from "./pages/expertDashboard/ExpertDashboardPage.jsx";
+import { HomePage } from "./pages/home/HomePage.jsx";
+import { SubscriptionPage } from "./pages/subscription/SubscriptionPage.jsx";
 import { useChat } from "./services/chat/useChat.js";
 import {
   getSession,
@@ -13,6 +18,7 @@ import {
   subscribeToAuthChanges,
 } from "./services/auth/authService.js";
 import { getProfile, saveProfile } from "./services/profile/profileService.js";
+import { getSupabaseClient } from "./services/supabase/client.js";
 
 function toErrorMessage(error, fallback) {
   if (error instanceof Error && error.message) return error.message;
@@ -20,8 +26,10 @@ function toErrorMessage(error, fallback) {
 }
 
 export function App() {
-  const [page, setPage] = useState("landing"); // "landing" | "chat" | "dashboard"
+  const [page, setPage] = useState("landing");
+  const [communityRoomId, setCommunityRoomId] = useState(null);
   const chat = useChat();
+  const profileChannelRef = useRef(null);
 
   const [state, setState] = useState({
     authLoading: true,
@@ -43,6 +51,22 @@ export function App() {
     } catch {
       setState((s) => ({ ...s, profileLoading: false }));
     }
+
+    // Subscribe to live profile changes (e.g. admin flips user_type to 'expert')
+    const supabase = getSupabaseClient();
+    if (profileChannelRef.current) {
+      supabase.removeChannel(profileChannelRef.current);
+    }
+    profileChannelRef.current = supabase
+      .channel(`profile_live_${userId}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "profiles", filter: `id=eq.${userId}` },
+        (payload) => {
+          setState((s) => ({ ...s, profile: payload.new }));
+        }
+      )
+      .subscribe();
   }
 
   useEffect(() => {
@@ -124,6 +148,10 @@ export function App() {
 
   async function handleLogout() {
     setState((s) => ({ ...s, authActionLoading: true, errorMessage: "", successMessage: "" }));
+    if (profileChannelRef.current) {
+      getSupabaseClient().removeChannel(profileChannelRef.current);
+      profileChannelRef.current = null;
+    }
     try {
       await signOut();
       setState((s) => ({ ...s, profile: null }));
@@ -152,6 +180,11 @@ export function App() {
     }
   }
 
+  function handleOpenCommunityChat(roomId) {
+    setCommunityRoomId(roomId);
+    setPage("communityChat");
+  }
+
   const actions = {
     onCloseLogin: () => setState((s) => ({ ...s, authModalOpen: false, errorMessage: "" })),
     onEmailLogin: handleEmailLogin,
@@ -161,8 +194,63 @@ export function App() {
     onProfileSubmit: handleProfileSubmit,
   };
 
+  if (page === "services") {
+    return (
+      <ServicesPage
+        session={state.session}
+        profile={state.profile}
+        authLoading={state.authLoading}
+        onHome={() => setPage("landing")}
+        onLogin={actions.onOpenLogin}
+        onLogout={actions.onLogout}
+        onSubscription={() => setPage("subscription")}
+        onDeepfake={() => setPage("deepfake")}
+        onApplyExpert={() => setPage("applyExpert")}
+        onExpertDashboard={() => setPage("expertDashboard")}
+        onCommunityChat={handleOpenCommunityChat}
+        onServices={() => setPage("services")}
+      />
+    );
+  }
+
   if (page === "chat") {
     return <ChatPage chat={chat} onBack={() => setPage("landing")} />;
+  }
+
+  if (page === "admin") {
+    return <AdminPage />;
+  }
+
+  if (page === "applyExpert") {
+    return (
+      <ApplyExpertPage
+        session={state.session}
+        profile={state.profile}
+        onBack={() => setPage("landing")}
+      />
+    );
+  }
+
+  if (page === "expertDashboard") {
+    return (
+      <ExpertDashboardPage
+        session={state.session}
+        profile={state.profile}
+        onBack={() => setPage("landing")}
+        onCommunityChat={handleOpenCommunityChat}
+      />
+    );
+  }
+
+  if (page === "communityChat") {
+    return (
+      <CommunityChatPage
+        roomId={communityRoomId}
+        session={state.session}
+        profile={state.profile}
+        onBack={() => setPage("landing")}
+      />
+    );
   }
 
   if (page === "subscription") {
@@ -176,12 +264,12 @@ export function App() {
         onDashboard={() => setPage("dashboard")}
         onLogin={actions.onOpenLogin}
         onLogout={actions.onLogout}
-
+        onServices={() => setPage("services")}
       />
     );
   }
 
-if (page === "deepfake") {
+  if (page === "deepfake") {
     return (
       <DeepfakePage
         session={state.session}
@@ -194,11 +282,12 @@ if (page === "deepfake") {
         onLogout={actions.onLogout}
         onSubscription={() => setPage("subscription")}
         onDeepfake={() => setPage("deepfake")}
+        onServices={() => setPage("services")}
       />
     );
   }
 
-if (page === "dashboard") {
+  if (page === "dashboard") {
     return (
       <DashboardPage
         session={state.session}
@@ -209,7 +298,7 @@ if (page === "dashboard") {
         onOpenChat={() => setPage("chat")}
         onLogin={actions.onOpenLogin}
         onSubscription={() => setPage("subscription")}
-
+        onServices={() => setPage("services")}
       />
     );
   }
@@ -224,6 +313,10 @@ if (page === "dashboard") {
       onSubscription={() => setPage("subscription")}
       onAdmin={() => setPage("admin")}
       onDeepfake={() => setPage("deepfake")}
+      onApplyExpert={() => setPage("applyExpert")}
+      onExpertDashboard={() => setPage("expertDashboard")}
+      onCommunityChat={handleOpenCommunityChat}
+      onServices={() => setPage("services")}
     />
   );
 }

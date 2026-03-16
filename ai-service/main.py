@@ -45,7 +45,9 @@ app.add_middleware(
 from routes.health import router as health_router
 from routes.ingest import router as ingest_router
 from routes.chat import router as chat_router
+from routes.community import router as community_router
 
 app.include_router(health_router)
 app.include_router(ingest_router)
 app.include_router(chat_router)
+app.include_router(community_router)

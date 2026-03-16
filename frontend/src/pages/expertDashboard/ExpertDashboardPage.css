@@ -1,0 +1,214 @@
+.ep-root {
+  min-height: 100vh;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.ep-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 2rem;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  gap: 1rem;
+}
+
+.ep-back, .ep-refresh {
+  background: none;
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+
+.ep-back:hover, .ep-refresh:hover {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+
+.ep-topbar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.ep-topbar-badge {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--color-accent, #1b5e20);
+  background: rgba(17,197,179,0.1);
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.ep-topbar-sub {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+.ep-main {
+  flex: 1;
+  width: min(100%, 760px);
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ep-header h1 {
+  font-size: 2rem;
+  margin: 0 0 0.4rem;
+  color: var(--color-text);
+}
+
+.ep-header p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1rem;
+}
+
+.ep-error {
+  background: #fde8e8;
+  color: #9b1c1c;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
+.ep-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-muted);
+  padding: 3rem;
+  justify-content: center;
+}
+
+.ep-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent, #11c5b3);
+  border-radius: 50%;
+  animation: ep-spin 0.7s linear infinite;
+}
+
+@keyframes ep-spin { to { transform: rotate(360deg); } }
+
+.ep-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--color-muted);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.ep-empty p {
+  margin: 0.5rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.ep-empty span {
+  font-size: 0.88rem;
+}
+
+.ep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ep-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  transition: box-shadow 0.15s;
+}
+
+.ep-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.ep-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.ep-card-user {
+  font-weight: 700;
+  color: var(--color-accent, #1b5e20);
+}
+
+.ep-card-time {
+  color: var(--color-muted);
+}
+
+.ep-card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-text);
+}
+
+.ep-card-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ep-card-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.ep-btn {
+  padding: 0.55rem 1.2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.ep-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.ep-btn:hover:not(:disabled) { opacity: 0.85; }
+
+.ep-btn-accept {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  color: #fff;
+}
+
+.ep-btn-reject {
+  background: var(--color-surface-strong, #f1f5f9);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+}

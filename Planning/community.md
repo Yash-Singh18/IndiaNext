@@ -131,7 +131,7 @@ Score	Rank
 200+	Cyber Sentinel
 5️⃣ Ask an Expert System
 
-Normal user sees a button somewhere:
+Normal user sees a button on our hero section we have "Open Threat Scanner" and "Open Workspace" replace the text in hero section with something like the topic and add this "Ask community" there, 
 
 [ Ask an Expert ]
 

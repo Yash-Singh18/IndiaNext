@@ -1,0 +1,37 @@
+services:
+  prompt-guard:
+    build: ./prompt-guard-service
+    container_name: northstar-prompt-guard
+    ports:
+      - "8003:8003"
+    env_file:
+      - ./prompt-guard-service/.env
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+
+  vulnerable-demo:
+    build: ./vulnerable-demo
+    container_name: northstar-vulnerable-demo
+    ports:
+      - "8004:8004"
+    env_file:
+      - ./vulnerable-demo/.env
+    environment:
+      - PROMPT_GUARD_URL=http://prompt-guard:8003
+    depends_on:
+      - prompt-guard
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+
+  login-anomaly:
+    build: ./login-anomaly-service
+    container_name: northstar-login-anomaly
+    ports:
+      - "8005:8005"
+    env_file:
+      - ./login-anomaly-service/.env
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
