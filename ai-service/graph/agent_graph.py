@@ -118,10 +118,13 @@ async def run_agent(session_id: str, query: str, ws_manager: WebSocketManager):
             if not context:
                 await ws_manager.send_message(session_id, {
                     "type": "token",
-                    "content": "I don't have any relevant documents to answer that question. "
-                               "Please upload some documents first using the upload feature.",
+                    "content": "Upload a relevant document for a grounded answer with citations, "
+                               "or ask a general question and I will answer directly.",
                 })
-                full_response = "No documents available."
+                full_response = (
+                    "Upload a relevant document for a grounded answer with citations, "
+                    "or ask a general question and I will answer directly."
+                )
             else:
                 system_prompt = build_rag_prompt(context, sources)
                 async for token in llm_service.generate_stream(system_prompt, query, history):

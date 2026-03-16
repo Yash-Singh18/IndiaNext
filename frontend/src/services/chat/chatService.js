@@ -7,13 +7,16 @@ class ChatService {
     this.listeners = new Map();
     this.reconnectAttempts = 0;
     this.maxReconnectAttempts = 5;
+    this.pendingMessages = [];
+    this.shouldReconnect = true;
   }
 
   connect(sessionId) {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+    if (this.ws && (this.ws.readyState === WebSocket.OPEN || this.ws.readyState === WebSocket.CONNECTING)) {
       return;
     }
 
+    this.shouldReconnect = true;
     this.sessionId = sessionId || crypto.randomUUID();
     this.ws = new WebSocket(`${WS_URL}/${this.sessionId}`);
     this.ws.binaryType = "arraybuffer";
@@ -21,6 +24,7 @@ class ChatService {
     this.ws.onopen = () => {
       this.reconnectAttempts = 0;
       this._emit("connected", { sessionId: this.sessionId });
+      this._flushPendingMessages();
     };
 
     this.ws.onmessage = (event) => {
@@ -40,7 +44,10 @@ class ChatService {
 
     this.ws.onclose = () => {
       this._emit("disconnected", {});
-      this._tryReconnect();
+      this.ws = null;
+      if (this.shouldReconnect) {
+        this._tryReconnect();
+      }
     };
 
     this.ws.onerror = () => {
@@ -51,6 +58,7 @@ class ChatService {
   }
 
   disconnect() {
+    this.shouldReconnect = false;
     this.reconnectAttempts = this.maxReconnectAttempts; // prevent reconnect
     if (this.ws) {
       this.ws.close();
@@ -59,20 +67,17 @@ class ChatService {
   }
 
   sendMessage(content) {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
-    this.ws.send(JSON.stringify({ type: "text", content }));
+    this._sendOrQueue(JSON.stringify({ type: "text", content }));
   }
 
   sendAudio(audioBlob) {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
     audioBlob.arrayBuffer().then((buffer) => {
-      this.ws.send(buffer);
+      this._sendOrQueue(buffer);
     });
   }
 
   cancel() {
-    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
-    this.ws.send(JSON.stringify({ type: "cancel" }));
+    this._sendOrQueue(JSON.stringify({ type: "cancel" }));
   }
 
   on(event, callback) {
@@ -96,6 +101,29 @@ class ChatService {
     this.reconnectAttempts++;
     const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 10000);
     setTimeout(() => this.connect(this.sessionId), delay);
+  }
+
+  _sendOrQueue(payload) {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(payload);
+      return;
+    }
+
+    this.pendingMessages.push(payload);
+    if (!this.ws || this.ws.readyState === WebSocket.CLOSED) {
+      this.connect(this.sessionId);
+    }
+  }
+
+  _flushPendingMessages() {
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN || this.pendingMessages.length === 0) {
+      return;
+    }
+
+    for (const payload of this.pendingMessages) {
+      this.ws.send(payload);
+    }
+    this.pendingMessages = [];
   }
 
   get isConnected() {

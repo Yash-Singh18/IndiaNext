@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { chatService } from "./chatService.js";
 
+function createMessage(message) {
+  return { id: crypto.randomUUID(), ...message };
+}
+
 /**
  * Shared chat hook — call once in App, pass state down to both
  * the popup ChatPanel and the full-page ChatPage.
@@ -11,11 +15,13 @@ export function useChat() {
   const [connected, setConnected] = useState(false);
   const streamBufferRef = useRef("");
   const activeRef = useRef(false); // tracks whether any chat UI is open
+  const streamingMessageIdRef = useRef(null);
 
   const connect = useCallback(() => {
-    if (activeRef.current) return; // already wired
     activeRef.current = true;
-    chatService.connect();
+    if (!chatService.isConnected) {
+      chatService.connect();
+    }
   }, []);
 
   const disconnect = useCallback(() => {
@@ -32,56 +38,101 @@ export function useChat() {
       chatService.on("token", (data) => {
         streamBufferRef.current += data.content;
         setMessages((prev) => {
-          const last = prev[prev.length - 1];
-          if (last && last.role === "assistant" && last.streaming) {
-            return [
-              ...prev.slice(0, -1),
-              { ...last, content: streamBufferRef.current },
-            ];
+          if (streamingMessageIdRef.current) {
+            const index = prev.findIndex((message) => message.id === streamingMessageIdRef.current);
+            if (index >= 0) {
+              const next = [...prev];
+              next[index] = { ...next[index], content: streamBufferRef.current };
+              return next;
+            }
           }
-          return [
-            ...prev,
-            { role: "assistant", content: streamBufferRef.current, streaming: true },
-          ];
+
+          const assistantMessage = createMessage({
+            role: "assistant",
+            content: streamBufferRef.current,
+            streaming: true,
+          });
+          streamingMessageIdRef.current = assistantMessage.id;
+          return [...prev, assistantMessage];
         });
       }),
 
       chatService.on("sources", (data) => {
         setMessages((prev) => {
-          const last = prev[prev.length - 1];
-          if (last && last.role === "assistant") {
-            return [
-              ...prev.slice(0, -1),
-              { ...last, sources: data.sources, confidence: data.confidence },
-            ];
+          if (!streamingMessageIdRef.current) {
+            return prev;
           }
-          return prev;
+
+          const index = prev.findIndex((message) => message.id === streamingMessageIdRef.current);
+          if (index < 0) {
+            return prev;
+          }
+
+          const next = [...prev];
+          next[index] = {
+            ...next[index],
+            sources: data.sources,
+            confidence: data.confidence,
+          };
+          return next;
         });
       }),
 
       chatService.on("transcript", (data) => {
-        setMessages((prev) => [...prev, { role: "user", content: data.content }]);
+        setMessages((prev) => [...prev, createMessage({ role: "user", content: data.content })]);
       }),
 
       chatService.on("done", () => {
         setStreaming(false);
         streamBufferRef.current = "";
         setMessages((prev) => {
-          const last = prev[prev.length - 1];
-          if (last && last.streaming) {
-            return [...prev.slice(0, -1), { ...last, streaming: false }];
+          if (!streamingMessageIdRef.current) {
+            return prev;
           }
-          return prev;
+
+          const index = prev.findIndex((message) => message.id === streamingMessageIdRef.current);
+          streamingMessageIdRef.current = null;
+
+          if (index < 0) {
+            return prev;
+          }
+
+          const next = [...prev];
+          next[index] = { ...next[index], streaming: false };
+          return next;
         });
       }),
 
       chatService.on("error", (data) => {
         setStreaming(false);
         streamBufferRef.current = "";
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: `Error: ${data.content}`, error: true },
-        ]);
+        setMessages((prev) => {
+          if (!streamingMessageIdRef.current) {
+            return [
+              ...prev,
+              createMessage({ role: "assistant", content: `Error: ${data.content}`, error: true }),
+            ];
+          }
+
+          const index = prev.findIndex((message) => message.id === streamingMessageIdRef.current);
+          streamingMessageIdRef.current = null;
+
+          if (index < 0) {
+            return [
+              ...prev,
+              createMessage({ role: "assistant", content: `Error: ${data.content}`, error: true }),
+            ];
+          }
+
+          const next = [...prev];
+          next[index] = {
+            ...next[index],
+            content: `Error: ${data.content}`,
+            error: true,
+            streaming: false,
+          };
+          return next;
+        });
       }),
 
       chatService.on("audio", (arrayBuffer) => {
@@ -96,21 +147,38 @@ export function useChat() {
   }, []);
 
   const sendMessage = useCallback((text) => {
-    setMessages((prev) => [...prev, { role: "user", content: text }]);
+    const assistantMessage = createMessage({
+      role: "assistant",
+      content: "",
+      streaming: true,
+    });
+    streamingMessageIdRef.current = assistantMessage.id;
+    setMessages((prev) => [
+      ...prev,
+      createMessage({ role: "user", content: text }),
+      assistantMessage,
+    ]);
     setStreaming(true);
     streamBufferRef.current = "";
+    if (!chatService.isConnected) {
+      chatService.connect();
+    }
     chatService.sendMessage(text);
   }, []);
 
   const sendAudio = useCallback((blob) => {
     setStreaming(true);
     streamBufferRef.current = "";
+    if (!chatService.isConnected) {
+      chatService.connect();
+    }
     chatService.sendAudio(blob);
   }, []);
 
   const clearMessages = useCallback(() => {
     setMessages([]);
     streamBufferRef.current = "";
+    streamingMessageIdRef.current = null;
   }, []);
 
   return {
