@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { LandingPage } from "./pages/landing/LandingPage.jsx";
+import { ChatPage } from "./pages/chat/ChatPage.jsx";
+import { useChat } from "./services/chat/useChat.js";
 import {
   getSession,
   signInWithEmail,
@@ -15,6 +17,9 @@ function toErrorMessage(error, fallback) {
 }
 
 export function App() {
+  const [page, setPage] = useState("landing"); // "landing" | "chat"
+  const chat = useChat();
+
   const [state, setState] = useState({
     authLoading: true,
     authActionLoading: false,
@@ -153,5 +158,16 @@ export function App() {
     onProfileSubmit: handleProfileSubmit,
   };
 
-  return <LandingPage state={state} actions={actions} />;
+  if (page === "chat") {
+    return <ChatPage chat={chat} onBack={() => setPage("landing")} />;
+  }
+
+  return (
+    <LandingPage
+      state={state}
+      actions={actions}
+      chat={chat}
+      onOpenChatPage={() => setPage("chat")}
+    />
+  );
 }

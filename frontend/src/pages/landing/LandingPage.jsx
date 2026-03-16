@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AuthChoiceModal } from "../../components/AuthChoiceModal.jsx";
 import { ProfileSetupModal } from "../../components/ProfileSetupModal.jsx";
+import { ChatPanel } from "../../components/ChatPanel.jsx";
 import herobg from "../../assets/herobg.png";
 import "./LandingPage.css";
 
@@ -47,8 +48,9 @@ function SocialIcon({ name }) {
   );
 }
 
-export function LandingPage({ state, actions }) {
+export function LandingPage({ state, actions, chat, onOpenChatPage }) {
   const [dark, setDark] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
     <div className={`lp-root${dark ? " lp-dark" : ""}`}>
@@ -235,11 +237,19 @@ export function LandingPage({ state, actions }) {
           </div>
         </div>
       </footer>
+      {/* ── Chat Panel ────────────────────────────────────────────────── */}
+      <ChatPanel
+        isOpen={chatOpen}
+        onClose={() => setChatOpen(false)}
+        onExpand={() => { setChatOpen(false); onOpenChatPage(); }}
+        chat={chat}
+      />
+
       {/* ── Floating AI Chat Icon ───────────────────────────────────────── */}
-      <button 
+      <button
         className="lp-floating-chat-btn"
         aria-label="Open AI Chat"
-        onClick={() => console.log('Open AI chat clicked')}
+        onClick={() => setChatOpen((o) => !o)}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
