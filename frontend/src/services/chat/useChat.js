@@ -37,19 +37,21 @@ export function useChat() {
 
       chatService.on("token", (data) => {
         streamBufferRef.current += data.content;
+        // Capture value now — the ref may be cleared by "done" before the updater runs
+        const snapshot = streamBufferRef.current;
         setMessages((prev) => {
           if (streamingMessageIdRef.current) {
             const index = prev.findIndex((message) => message.id === streamingMessageIdRef.current);
             if (index >= 0) {
               const next = [...prev];
-              next[index] = { ...next[index], content: streamBufferRef.current };
+              next[index] = { ...next[index], content: snapshot };
               return next;
             }
           }
 
           const assistantMessage = createMessage({
             role: "assistant",
-            content: streamBufferRef.current,
+            content: snapshot,
             streaming: true,
           });
           streamingMessageIdRef.current = assistantMessage.id;
@@ -84,8 +86,9 @@ export function useChat() {
 
       chatService.on("done", () => {
         setStreaming(false);
-        streamBufferRef.current = "";
         setMessages((prev) => {
+          // Clear buffer inside updater so pending token updaters run first
+          streamBufferRef.current = "";
           if (!streamingMessageIdRef.current) {
             return prev;
           }
@@ -105,8 +108,8 @@ export function useChat() {
 
       chatService.on("error", (data) => {
         setStreaming(false);
-        streamBufferRef.current = "";
         setMessages((prev) => {
+          streamBufferRef.current = "";
           if (!streamingMessageIdRef.current) {
             return [
               ...prev,
