@@ -6,7 +6,7 @@ you can remove current chatbot from our ai system add this entire ai system to t
 2. Detection
 3. Explainability
 4. Recommendation
-
+   
 Right now your RAG probably does:
 
 ```
