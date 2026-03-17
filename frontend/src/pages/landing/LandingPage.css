@@ -5,51 +5,51 @@
 
 /* ── CSS Variables (Light Mode) ─────────────────────────────────────────── */
 .lp-root {
-  /* Brand palette */
-  --lp-gold:           #D4AF37;
-  --lp-gold-soft:      #FFD54F;
-  --lp-green:          #2E7D32;
-  --lp-forest:         #1B5E20;
-  --lp-leaf:           #4CAF50;
+  /* Brand palette — Imperial Signal */
+  --lp-gold:           #C6A75C;
+  --lp-gold-soft:      #D4AF37;
+  --lp-green:          #C6A75C;
+  --lp-forest:         #D4AF37;
+  --lp-leaf:           #C6A75C;
   --lp-earth:          #8D6E63;
-  --lp-blue:           #38BDF8;
+  --lp-blue:           #C6A75C;
 
   /* UI tokens */
-  --lp-bg:             #F6F8F5;
-  --lp-text:           #1E293B;
-  --lp-muted:          #64748B;
-  --lp-card-surface:   rgba(255, 255, 255, 0.95);
+  --lp-bg:             var(--color-bg, #0B0B0C);
+  --lp-text:           var(--color-text, #F5F5F5);
+  --lp-muted:          var(--color-muted, #B8B8B8);
+  --lp-card-surface:   var(--color-surface, rgba(43, 43, 46, 0.88));
 
   /* Navbar */
-  --lp-nav-bg:         rgba(246, 248, 245, 0.82);
-  --lp-nav-border:     rgba(46, 125, 50, 0.18);
-  --lp-nav-link-hover-bg: rgba(46, 125, 50, 0.08);
+  --lp-nav-bg:         var(--color-surface, rgba(43, 43, 46, 0.88));
+  --lp-nav-border:     var(--color-border, rgba(198, 167, 92, 0.15));
+  --lp-nav-link-hover-bg: rgba(198, 167, 92, 0.1);
 
   /* Legacy section */
-  --lp-legacy-bg:      #0A160A;
-  --lp-legacy-text:    #EEF5EE;
+  --lp-legacy-bg:      #0B0B0C;
+  --lp-legacy-text:    #F5F5F5;
 
   /* Contact section */
-  --lp-contact-bg:     #00BFA5;
+  --lp-contact-bg:     #C6A75C;
   --lp-contact-mq:     rgba(255, 255, 255, 0.35);
 
   /* Footer */
-  --lp-footer-bg:      #060E06;
-  --lp-footer-text:    rgba(238, 245, 238, 0.6);
-  --lp-footer-divide:  rgba(255, 255, 255, 0.06);
+  --lp-footer-bg:      #0B0B0C;
+  --lp-footer-text:    rgba(245, 245, 245, 0.6);
+  --lp-footer-divide:  rgba(198, 167, 92, 0.12);
 
   /* Shadows */
-  --lp-shadow-nav:     0 4px 28px rgba(27, 94, 32, 0.14);
-  --lp-shadow-btn:     0 4px 20px rgba(46, 125, 50, 0.35);
+  --lp-shadow-nav:     0 4px 28px rgba(198, 167, 92, 0.14);
+  --lp-shadow-btn:     0 4px 20px rgba(198, 167, 92, 0.35);
   --lp-shadow-card:    0 12px 48px rgba(0, 0, 0, 0.28);
 
   /* Gradients */
-  --lp-grad-brand:     linear-gradient(135deg, #D4AF37, #4CAF50, #2E7D32);
-  --lp-grad-gold:      linear-gradient(90deg, #FFD54F, #D4AF37, #2E7D32);
+  --lp-grad-brand:     linear-gradient(135deg, #D4AF37, #C6A75C);
+  --lp-grad-gold:      linear-gradient(90deg, #D4AF37, #C6A75C);
   --lp-grad-hero:      linear-gradient(
                          135deg,
-                         rgba(15, 23, 42, 0.68) 0%,
-                         rgba(15, 23, 42, 0.45) 50%,
+                         rgba(11, 11, 12, 0.68) 0%,
+                         rgba(11, 11, 12, 0.45) 50%,
                          rgba(0, 0, 0, 0.75) 100%
                        );
 
@@ -62,13 +62,13 @@
 
 /* ── Dark Mode Overrides ─────────────────────────────────────────────────── */
 .lp-root.lp-dark {
-  --lp-bg:             #0D1A0D;
-  --lp-text:           #E8F5E9;
-  --lp-muted:          #7DA882;
-  --lp-card-surface:   rgba(18, 38, 18, 0.96);
-  --lp-nav-bg:         rgba(8, 18, 8, 0.86);
-  --lp-nav-border:     rgba(76, 175, 80, 0.22);
-  --lp-nav-link-hover-bg: rgba(76, 175, 80, 0.1);
+  --lp-bg:             #0B0B0C;
+  --lp-text:           #F5F5F5;
+  --lp-muted:          #B8B8B8;
+  --lp-card-surface:   rgba(43, 43, 46, 0.88);
+  --lp-nav-bg:         rgba(43, 43, 46, 0.86);
+  --lp-nav-border:     rgba(198, 167, 92, 0.15);
+  --lp-nav-link-hover-bg: rgba(198, 167, 92, 0.1);
   background: var(--lp-bg);
 }
 
@@ -184,12 +184,12 @@
 }
 
 .lp-theme-btn:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(198, 167, 92, 0.1);
 }
 
 .lp-login-btn {
   background: var(--lp-forest);
-  color: #fff;
+  color: #0B0B0C;
   border: none;
   border-radius: 9999px;
   padding: 0.48rem 1.15rem;
@@ -202,7 +202,7 @@
 .lp-login-btn:hover:not(:disabled) {
   background: var(--lp-green);
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+  box-shadow: 0 6px 20px rgba(198, 167, 92, 0.4);
 }
 
 .lp-login-btn:disabled {
@@ -218,13 +218,13 @@
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--lp-green);
-  background: rgba(46, 125, 50, 0.07);
+  background: rgba(198, 167, 92, 0.07);
   letter-spacing: 0.01em;
 }
 
 .lp-root.lp-dark .lp-user-chip {
   color: var(--lp-leaf);
-  background: rgba(76, 175, 80, 0.1);
+  background: rgba(198, 167, 92, 0.1);
 }
 
 .lp-logout-btn {
@@ -241,7 +241,7 @@
 .lp-logout-btn:hover:not(:disabled) {
   color: var(--lp-text);
   border-color: var(--lp-muted);
-  background: rgba(100, 116, 139, 0.07);
+  background: rgba(184, 184, 184, 0.07);
 }
 
 .lp-logout-btn:disabled {
@@ -296,10 +296,10 @@
   letter-spacing: 0.24em;
   text-transform: uppercase;
   margin-bottom: 1.4rem;
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(198, 167, 92, 0.1);
   padding: 0.35rem 1.1rem;
   border-radius: 9999px;
-  border: 1px solid rgba(212, 175, 55, 0.28);
+  border: 1px solid rgba(198, 167, 92, 0.28);
 }
 
 .lp-hero-h1 {
@@ -330,7 +330,7 @@
 /* ── Shared Buttons ─────────────────────────────────────────────────────── */
 .lp-btn-primary {
   background: var(--lp-grad-brand);
-  color: #fff;
+  color: #0B0B0C;
   border: none;
   border-radius: 9999px;
   padding: 0.8rem 2rem;
@@ -343,7 +343,7 @@
 .lp-btn-primary:hover {
   opacity: 0.95;
   transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 8px 32px rgba(46, 125, 50, 0.55);
+  box-shadow: 0 8px 32px rgba(198, 167, 92, 0.55);
 }
 
 .lp-btn-outline {
@@ -359,9 +359,9 @@
 
 .lp-btn-outline:hover {
   border-color: var(--lp-gold);
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(198, 167, 92, 0.15);
   transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 8px 24px rgba(198, 167, 92, 0.25);
 }
 
 
@@ -419,7 +419,7 @@
 }
 
 .lp-legacy-subtitle {
-  color: rgba(238, 245, 238, 0.4);
+  color: rgba(245, 245, 245, 0.4);
   font-size: 0.78rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -445,9 +445,9 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(212, 175, 55, 0.25) 10%,
-    rgba(212, 175, 55, 0.6) 50%,
-    rgba(212, 175, 55, 0.25) 90%,
+    rgba(198, 167, 92, 0.25) 10%,
+    rgba(198, 167, 92, 0.6) 50%,
+    rgba(198, 167, 92, 0.25) 90%,
     transparent
   );
 }
@@ -465,8 +465,8 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.28);
-  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  background: rgba(198, 167, 92, 0.28);
+  border: 1.5px solid rgba(198, 167, 92, 0.45);
   margin-bottom: 0.55rem;
   position: relative;
   z-index: 2;
@@ -474,7 +474,7 @@
 }
 
 .lp-tl-item:hover .lp-tl-dot {
-  background: rgba(212, 175, 55, 0.8);
+  background: rgba(198, 167, 92, 0.8);
   transform: scale(1.2);
 }
 
@@ -484,13 +484,13 @@
   background: var(--lp-gold);
   border-color: var(--lp-gold);
   box-shadow:
-    0 0 0 4px rgba(212, 175, 55, 0.18),
-    0 0 24px rgba(212, 175, 55, 0.45);
+    0 0 0 4px rgba(198, 167, 92, 0.18),
+    0 0 24px rgba(198, 167, 92, 0.45);
 }
 
 .lp-tl-year {
   font-size: 0.72rem;
-  color: rgba(238, 245, 238, 0.4);
+  color: rgba(245, 245, 245, 0.4);
   font-weight: 600;
   letter-spacing: 0.06em;
 }
@@ -505,9 +505,9 @@
   bottom: calc(100% + 1.2rem);
   right: 0;
   width: 260px;
-  background: rgba(26, 30, 26, 0.95);
+  background: rgba(43, 43, 46, 0.95);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(198, 167, 92, 0.25);
   border-top: 3px solid var(--lp-gold);
   padding: 1.2rem 1.4rem;
   border-radius: 12px;
@@ -549,7 +549,7 @@
 .lp-tl-card-desc {
   margin: 0;
   font-size: 0.8rem;
-  color: rgba(238, 245, 238, 0.85);
+  color: rgba(245, 245, 245, 0.85);
   line-height: 1.55;
 }
 
@@ -570,7 +570,7 @@
   background: var(--lp-gold);
   color: var(--lp-legacy-bg);
   transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 24px rgba(198, 167, 92, 0.35);
 }
 
 
@@ -625,7 +625,7 @@
 }
 
 .lp-contact-card {
-  background: #ffffff;
+  background: var(--lp-card-surface);
   border-radius: 20px;
   padding: 4.5rem 4rem;
   text-align: center;
@@ -653,19 +653,19 @@
 
 .lp-contact-btn {
   background: var(--lp-contact-bg);
-  color: #fff;
+  color: #0B0B0C;
   border: none;
   border-radius: 9999px;
   padding: 1rem 2.8rem;
   font-weight: 700;
   font-size: 1.05rem;
   transition: transform 140ms, box-shadow 140ms;
-  box-shadow: 0 4px 14px rgba(0, 191, 165, 0.4);
+  box-shadow: 0 4px 14px rgba(198, 167, 92, 0.4);
 }
 
 .lp-contact-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 24px rgba(0, 191, 165, 0.6);
+  box-shadow: 0 8px 24px rgba(198, 167, 92, 0.6);
 }
 
 
@@ -708,7 +708,7 @@
   margin: 0;
   font-style: italic;
   font-size: 0.9rem;
-  color: rgba(238, 245, 238, 0.55);
+  color: rgba(245, 245, 245, 0.55);
   text-align: right;
   border-right: 2px solid var(--lp-gold);
   padding-right: 1.1rem;
@@ -733,7 +733,7 @@
 .lp-footer-copy {
   font-size: 0.74rem;
   letter-spacing: 0.07em;
-  color: rgba(238, 245, 238, 0.35);
+  color: rgba(245, 245, 245, 0.35);
 }
 
 .lp-footer-socials {
@@ -750,14 +750,14 @@
   height: 36px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(238, 245, 238, 0.45);
+  color: rgba(245, 245, 245, 0.45);
   transition: color 140ms, border-color 140ms, background 140ms;
 }
 
 .lp-footer-icon:hover {
   color: var(--lp-gold);
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.07);
+  border-color: rgba(198, 167, 92, 0.4);
+  background: rgba(198, 167, 92, 0.07);
   transform: scale(1.15);
 }
 
@@ -866,7 +866,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.4);
+  box-shadow: 0 4px 20px rgba(198, 167, 92, 0.4);
   cursor: pointer;
   z-index: 1000;
   transition: transform 140ms, box-shadow 140ms;
@@ -874,15 +874,15 @@
 
 .lp-floating-chat-btn:hover {
   transform: scale(1.1) translateY(-5px);
-  box-shadow: 0 8px 30px rgba(46, 125, 50, 0.6);
+  box-shadow: 0 8px 30px rgba(198, 167, 92, 0.6);
 }
 
 .lp-root.lp-dark .lp-floating-chat-btn {
-  box-shadow: 0 4px 20px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 20px rgba(198, 167, 92, 0.3);
 }
 
 .lp-root.lp-dark .lp-floating-chat-btn:hover {
-  box-shadow: 0 8px 30px rgba(76, 175, 80, 0.5);
+  box-shadow: 0 8px 30px rgba(198, 167, 92, 0.5);
 }
 
 @media (max-width: 640px) {

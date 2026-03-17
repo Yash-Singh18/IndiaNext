@@ -1,23 +1,37 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Imperial Signal Theme — CSS Custom Properties
+   Dark mode is default. Light mode via [data-theme="light"].
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 :root {
   --font-sans: "Segoe UI", "Helvetica Neue", sans-serif;
-  --color-bg: #f3efe6;
-  --color-surface: rgba(255, 252, 247, 0.88);
-  --color-surface-strong: #fffaf2;
-  --color-text: #1d2330;
-  --color-muted: #5f6676;
-  --color-accent: #0d6c63;
-  --color-accent-strong: #094d47;
-  --color-border: rgba(29, 35, 48, 0.12);
-  --color-error: #b53b3b;
-  --color-error-bg: rgba(181, 59, 59, 0.1);
-  --color-success: #116149;
-  --color-success-bg: rgba(17, 97, 73, 0.11);
-  --color-info: #3158a6;
-  --color-info-bg: rgba(49, 88, 166, 0.12);
-  --color-danger: #9d2f2f;
-  --color-danger-strong: #7d2323;
-  --color-danger-bg: rgba(157, 47, 47, 0.1);
-  --shadow-card: 0 24px 60px rgba(34, 32, 28, 0.12);
+
+  /* ── Core palette (Dark — Imperial Signal) ── */
+  --color-bg: #0B0B0C;
+  --color-bg-alt: #141414;
+  --color-surface: rgba(43, 43, 46, 0.88);
+  --color-surface-strong: #2B2B2E;
+  --color-text: #F5F5F5;
+  --color-muted: #B8B8B8;
+  --color-accent: #C6A75C;
+  --color-accent-strong: #D4AF37;
+  --color-accent-rgb: 198, 167, 92;
+  --color-border: rgba(198, 167, 92, 0.15);
+
+  /* ── Status / alerts ── */
+  --color-error: #FF4D4D;
+  --color-error-bg: rgba(255, 77, 77, 0.1);
+  --color-success: #22C55E;
+  --color-success-bg: rgba(34, 197, 94, 0.1);
+  --color-info: #3B82F6;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+  --color-danger: #FF4D4D;
+  --color-danger-strong: #EF4444;
+  --color-danger-bg: rgba(255, 77, 77, 0.1);
+  --color-warning: #FFB020;
+
+  /* ── Design tokens ── */
+  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.3);
   --radius-lg: 28px;
   --radius-md: 18px;
   --radius-sm: 12px;
@@ -30,6 +44,33 @@
   --container-width: 1080px;
 }
 
+/* ── Light mode override ── */
+[data-theme="light"] {
+  --color-bg: #F5F5F0;
+  --color-bg-alt: #EAEAE5;
+  --color-surface: rgba(255, 255, 255, 0.92);
+  --color-surface-strong: #FFFFFF;
+  --color-text: #0B0B0C;
+  --color-muted: #6B7280;
+  --color-accent: #A88B3D;
+  --color-accent-strong: #C6A75C;
+  --color-accent-rgb: 168, 139, 61;
+  --color-border: rgba(11, 11, 12, 0.1);
+
+  --color-error: #DC2626;
+  --color-error-bg: rgba(220, 38, 38, 0.08);
+  --color-success: #059669;
+  --color-success-bg: rgba(5, 150, 105, 0.08);
+  --color-info: #2563EB;
+  --color-info-bg: rgba(37, 99, 235, 0.08);
+  --color-danger: #DC2626;
+  --color-danger-strong: #B91C1C;
+  --color-danger-bg: rgba(220, 38, 38, 0.08);
+
+  --shadow-card: 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Reset ── */
 * {
   box-sizing: border-box;
 }
@@ -39,10 +80,8 @@ body {
   min-height: 100vh;
   font-family: var(--font-sans);
   color: var(--color-text);
-  background:
-    radial-gradient(circle at top left, rgba(13, 108, 99, 0.22), transparent 34%),
-    radial-gradient(circle at top right, rgba(217, 163, 92, 0.26), transparent 32%),
-    linear-gradient(180deg, #fcfaf5 0%, var(--color-bg) 100%);
+  background: var(--color-bg);
+  transition: background 200ms ease, color 200ms ease;
 }
 
 button,
@@ -50,6 +89,7 @@ input {
   font: inherit;
 }
 
+/* ── Layout ── */
 .page-shell {
   width: min(100%, var(--container-width));
   margin: 0 auto;
@@ -93,6 +133,7 @@ input {
   flex-wrap: wrap;
 }
 
+/* ── Buttons ── */
 .user-chip,
 .auth-button,
 .primary-button,
@@ -104,7 +145,7 @@ input {
 }
 
 .user-chip {
-  background: rgba(255, 250, 242, 0.9);
+  background: rgba(var(--color-accent-rgb), 0.1);
   border: 1px solid var(--color-border);
   color: var(--color-muted);
 }
@@ -116,7 +157,7 @@ input {
 .ghost-button {
   border: none;
   background: var(--color-accent);
-  color: #ffffff;
+  color: #0B0B0C;
   cursor: pointer;
   transition: transform 140ms ease, background 140ms ease;
 }
@@ -141,32 +182,34 @@ input {
 }
 
 .secondary-button {
-  background: #d7ebe7;
-  color: var(--color-accent-strong);
+  background: rgba(var(--color-accent-rgb), 0.12);
+  color: var(--color-accent);
 }
 
 .secondary-button:hover {
-  background: #c5e1db;
+  background: rgba(var(--color-accent-rgb), 0.2);
 }
 
 .ghost-button {
-  background: rgba(255, 250, 242, 0.92);
+  background: var(--color-surface);
   color: var(--color-text);
   border: 1px solid var(--color-border);
 }
 
 .ghost-button:hover {
-  background: #ffffff;
+  background: var(--color-surface-strong);
 }
 
 .danger-button {
   background: var(--color-danger);
+  color: #fff;
 }
 
 .danger-button:hover {
   background: var(--color-danger-strong);
 }
 
+/* ── Content ── */
 .page-content {
   display: grid;
   gap: var(--space-4);
@@ -177,12 +220,12 @@ input {
 .status-banner {
   backdrop-filter: blur(16px);
   background: var(--color-surface);
-  border: 1px solid rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-card);
 }
 
 .danger-card {
-  border-color: rgba(157, 47, 47, 0.14);
+  border-color: rgba(255, 77, 77, 0.2);
 }
 
 .hero-panel,
@@ -204,6 +247,7 @@ input {
   line-height: 1.6;
 }
 
+/* ── Forms ── */
 .profile-form {
   display: grid;
   gap: var(--space-3);
@@ -233,6 +277,7 @@ input {
   font-size: 0.92rem;
 }
 
+/* ── Summary list ── */
 .summary-list {
   display: grid;
   gap: var(--space-3);
@@ -262,6 +307,7 @@ input {
   font-weight: 600;
 }
 
+/* ── Status banners ── */
 .status-banner {
   padding: 1rem 1.15rem;
   border-radius: var(--radius-md);
@@ -270,28 +316,29 @@ input {
 .status-error {
   color: var(--color-error);
   background: var(--color-error-bg);
-  border-color: rgba(181, 59, 59, 0.2);
+  border-color: rgba(255, 77, 77, 0.2);
 }
 
 .status-success {
   color: var(--color-success);
   background: var(--color-success-bg);
-  border-color: rgba(17, 97, 73, 0.22);
+  border-color: rgba(34, 197, 94, 0.22);
 }
 
 .status-info {
   color: var(--color-info);
   background: var(--color-info-bg);
-  border-color: rgba(49, 88, 166, 0.18);
+  border-color: rgba(59, 130, 246, 0.18);
 }
 
+/* ── Modals ── */
 .modal-backdrop {
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
   padding: var(--space-3);
-  background: rgba(29, 35, 48, 0.34);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   z-index: 20;
 }
@@ -301,7 +348,7 @@ input {
   padding: clamp(1.4rem, 3vw, 2rem);
   border-radius: var(--radius-lg);
   background: var(--color-surface-strong);
-  border: 1px solid rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--color-border);
   box-shadow: var(--shadow-card);
 }
 
@@ -346,6 +393,7 @@ input {
   background: var(--color-border);
 }
 
+/* ── Responsive ── */
 @media (max-width: 720px) {
   .page-shell {
     padding: var(--space-3);

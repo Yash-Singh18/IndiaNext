@@ -17,7 +17,7 @@
   width: 22px;
   height: 22px;
   border: 2px solid var(--color-border);
-  border-top-color: var(--color-accent, #11c5b3);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: cc-spin 0.7s linear infinite;
 }
@@ -73,7 +73,7 @@
 }
 
 .cc-expert-label {
-  color: var(--color-accent, #1b5e20);
+  color: var(--color-accent);
   font-weight: 600;
 }
 
@@ -92,13 +92,13 @@
   flex-shrink: 0;
 }
 
-.cc-ws-live { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.5); }
-.cc-ws-off  { background: #94a3b8; }
+.cc-ws-live { background: var(--color-success); box-shadow: 0 0 6px color-mix(in srgb, var(--color-success) 50%, transparent); }
+.cc-ws-off  { background: var(--color-muted); }
 
 .cc-resolve-btn {
   padding: 0.4rem 0.9rem;
-  background: linear-gradient(135deg, #1b5e20, #2e7d32);
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
+  color: #0B0B0C;
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
@@ -113,8 +113,8 @@
 
 .cc-resolved-badge {
   padding: 0.3rem 0.7rem;
-  background: #d1fae5;
-  color: #065f46;
+  background: rgba(var(--color-accent-rgb), 0.12);
+  color: var(--color-accent);
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 700;
@@ -122,8 +122,8 @@
 }
 
 .cc-error {
-  background: #fde8e8;
-  color: #9b1c1c;
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  color: var(--color-error);
   padding: 0.6rem 1.5rem;
   font-size: 0.88rem;
 }
@@ -161,8 +161,8 @@
 }
 
 .cc-bubble-mine {
-  background: linear-gradient(135deg, #1b5e20, #2e7d32);
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
+  color: #0B0B0C;
   border-bottom-right-radius: 4px;
 }
 
@@ -177,7 +177,7 @@
   display: block;
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--color-accent, #1b5e20);
+  color: var(--color-accent);
   margin-bottom: 0.25rem;
 }
 
@@ -216,13 +216,13 @@
   transition: border-color 0.15s;
 }
 
-.cc-input:focus { border-color: var(--color-accent, #11c5b3); }
+.cc-input:focus { border-color: var(--color-accent); }
 .cc-input:disabled { opacity: 0.6; cursor: not-allowed; }
 
 .cc-send-btn {
   padding: 0.7rem 1.4rem;
-  background: linear-gradient(135deg, #1b5e20, #2e7d32);
-  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
+  color: #0B0B0C;
   border: none;
   border-radius: var(--radius-md);
   font-size: 0.9rem;

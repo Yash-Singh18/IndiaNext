@@ -25,7 +25,7 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   margin-bottom: 1rem;
-  background: rgba(13, 108, 99, 0.1);
+  background: rgba(var(--color-accent-rgb), 0.1);
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
 }
@@ -72,9 +72,9 @@
 }
 
 .sub-card-highlight {
-  background: #fff;
+  background: var(--color-surface-strong);
   border: 2px solid var(--color-accent);
-  box-shadow: 0 24px 60px rgba(13, 108, 99, 0.15);
+  box-shadow: 0 24px 60px rgba(var(--color-accent-rgb), 0.15);
   transform: scale(1.05);
   z-index: 2;
 }
@@ -88,7 +88,7 @@
   top: -14px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, var(--color-accent), #059669);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
   color: white;
   padding: 0.4rem 1rem;
   border-radius: 999px;
@@ -193,12 +193,12 @@
 }
 
 .sub-btn-secondary {
-  background: rgba(13, 108, 99, 0.1);
+  background: rgba(var(--color-accent-rgb), 0.1);
   color: var(--color-accent);
 }
 
 .sub-btn-secondary:hover:not(:disabled) {
-  background: rgba(13, 108, 99, 0.15);
+  background: rgba(var(--color-accent-rgb), 0.15);
   transform: translateY(-2px);
 }
 
@@ -210,8 +210,8 @@
 }
 
 .sub-btn-pending {
-  background: #fdf6b2;
-  color: #723b13;
+  background: rgba(var(--color-accent-rgb), 0.15);
+  color: var(--color-accent-strong);
   cursor: wait;
 }
 
@@ -260,9 +260,9 @@
   font-weight: 700;
 }
 
-.sh-status-pending { background: #fdf6b2; color: #723b13; }
-.sh-status-approved { background: #def7ec; color: #03543f; }
-.sh-status-rejected { background: #fde8e8; color: #9b1c1c; }
+.sh-status-pending { background: rgba(var(--color-accent-rgb), 0.15); color: var(--color-accent-strong); }
+.sh-status-approved { background: color-mix(in srgb, var(--color-success) 12%, transparent); color: var(--color-success); }
+.sh-status-rejected { background: color-mix(in srgb, var(--color-error) 12%, transparent); color: var(--color-error); }
 
 .sh-date {
   color: var(--color-muted);

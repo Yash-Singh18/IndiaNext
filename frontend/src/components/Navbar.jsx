@@ -24,7 +24,6 @@ function timeAgo(ts) {
 }
 
 export function Navbar({
-  variant = "light",
   activePage = "home",
   session,
   profile,
@@ -43,7 +42,22 @@ export function Navbar({
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activeRoom, setActiveRoom] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  // ── Theme state ──
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("ns-theme") || "dark";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("ns-theme", theme);
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme((t) => (t === "dark" ? "light" : "dark"));
+  }
 
   // ── Notifications state ──
   const [notifOpen, setNotifOpen] = useState(false);
@@ -117,7 +131,24 @@ export function Navbar({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [dropdownOpen]);
 
+  // Close mobile menu on outside click
+  const mobileMenuRef = useRef(null);
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    function handleClick(e) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(e.target)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [mobileMenuOpen]);
+
   function handleNavClick(e, item) {
+    setMobileMenuOpen(false);
     if (item.id === "dashboard") {
       e.preventDefault();
       onDashboard?.();
@@ -132,14 +163,15 @@ export function Navbar({
   const isExpert = profile?.user_type === "expert";
 
   return (
-    <nav className={`ns-nav ns-nav-${variant}`}>
+    <nav className="ns-nav" ref={mobileMenuRef}>
       <div className="ns-nav-inner">
         <a className="ns-brand" onClick={onHome} href="#home">
           <span className="ns-brand-mark">N</span>
           <span className="ns-brand-name">NorthStar</span>
         </a>
 
-        <div className="ns-nav-links">
+        {/* Desktop nav links */}
+        <div className="ns-nav-links ns-nav-links-desktop">
           {NAV_ITEMS.map((item) => (
             <a
               key={item.id}
@@ -153,9 +185,27 @@ export function Navbar({
         </div>
 
         <div className="ns-nav-actions">
+          {/* Theme toggle */}
+          <button
+            className="ns-theme-toggle"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="5" />
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            )}
+          </button>
+
           {session ? (
             <>
-              {/* ── Notification bell ── */}
+              {/* Notification bell */}
               <div className="ns-notif-wrap" ref={notifRef}>
                 <button
                   className="ns-notif-btn"
@@ -214,7 +264,7 @@ export function Navbar({
                 {(profile?.subscription_tier || "free").toUpperCase()}
               </div>
 
-              {/* Profile chip — toggles dropdown */}
+              {/* Profile chip */}
               <div className="ns-profile-wrap" ref={dropdownRef}>
                 <button
                   className="ns-user-chip"
@@ -228,7 +278,6 @@ export function Navbar({
 
                 {dropdownOpen && (
                   <div className="ns-profile-dropdown">
-                    {/* Header */}
                     <div className="ns-pd-header">
                       <div className="ns-pd-avatar">
                         {(profile?.name?.[0] ?? profile?.username?.[0] ?? "U").toUpperCase()}
@@ -241,7 +290,6 @@ export function Navbar({
 
                     <div className="ns-pd-divider" />
 
-                    {/* Info rows */}
                     <div className="ns-pd-rows">
                       <div className="ns-pd-row">
                         <span className="ns-pd-label">Email</span>
@@ -273,7 +321,6 @@ export function Navbar({
 
                     <div className="ns-pd-divider" />
 
-                    {/* Actions */}
                     <div className="ns-pd-actions">
                       {isExpert ? (
                         <>
@@ -332,8 +379,36 @@ export function Navbar({
               {authLoading ? "Loading..." : "Login"}
             </button>
           )}
+
+          {/* Hamburger button — mobile only */}
+          <button
+            className="ns-hamburger"
+            onClick={() => setMobileMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <span className={`ns-hamburger-line${mobileMenuOpen ? " ns-hamburger-open" : ""}`} />
+            <span className={`ns-hamburger-line${mobileMenuOpen ? " ns-hamburger-open" : ""}`} />
+            <span className={`ns-hamburger-line${mobileMenuOpen ? " ns-hamburger-open" : ""}`} />
+          </button>
         </div>
       </div>
+
+      {/* Mobile nav links dropdown */}
+      {mobileMenuOpen && (
+        <div className="ns-mobile-menu">
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.id}
+              className={`ns-mobile-link${activePage === item.id ? " ns-mobile-link-active" : ""}`}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

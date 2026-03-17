@@ -11,8 +11,8 @@
 }
 
 .aem-modal {
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--color-surface-strong);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   padding: 2rem;
   width: min(100%, 480px);
@@ -30,7 +30,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #f1f5f9;
+  background: var(--color-surface);
   border: none;
   border-radius: 50%;
   width: 30px;
@@ -39,10 +39,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #64748b;
+  color: var(--color-muted);
 }
 
-.aem-close:hover { background: #e2e8f0; }
+.aem-close:hover { background: var(--color-border); }
 
 .aem-header {
   margin-bottom: 1.5rem;
@@ -51,13 +51,13 @@
 .aem-header h3 {
   margin: 0 0 0.4rem;
   font-size: 1.25rem;
-  color: #1e293b;
+  color: var(--color-text);
 }
 
 .aem-header p {
   margin: 0;
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--color-muted);
 }
 
 .aem-form {
@@ -72,30 +72,30 @@
   gap: 0.4rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--color-muted);
 }
 
 .aem-input, .aem-textarea {
   padding: 0.7rem 0.9rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
-  color: #1e293b;
-  background: #f8fafc;
+  color: var(--color-text);
+  background: var(--color-surface);
   outline: none;
   transition: border-color 0.15s;
   resize: vertical;
 }
 
 .aem-input:focus, .aem-textarea:focus {
-  border-color: #11c5b3;
-  background: #fff;
+  border-color: var(--color-accent);
+  background: var(--color-surface-strong);
 }
 
 .aem-error {
-  background: #fde8e8;
-  color: #9b1c1c;
+  background: rgba(255, 77, 77, 0.08);
+  color: var(--color-error);
   padding: 0.6rem 0.9rem;
   border-radius: 8px;
   font-size: 0.88rem;
@@ -103,7 +103,7 @@
 
 .aem-btn-primary {
   padding: 0.75rem;
-  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -129,12 +129,12 @@
 .aem-success h3 {
   margin: 0;
   font-size: 1.2rem;
-  color: #1e293b;
+  color: var(--color-text);
 }
 
 .aem-success p {
   margin: 0;
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--color-muted);
   max-width: 320px;
 }

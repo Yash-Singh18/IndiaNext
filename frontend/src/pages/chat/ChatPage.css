@@ -6,8 +6,8 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #080e08;
-  color: #e8f5e9;
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: "Segoe UI", "Helvetica Neue", sans-serif;
   overflow: hidden;
 }
@@ -18,15 +18,15 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid rgba(76, 175, 80, 0.12);
-  background: rgba(10, 20, 10, 0.95);
+  border-bottom: 1px solid rgba(var(--color-accent-rgb), 0.12);
+  background: rgba(11, 11, 12, 0.95);
   flex-shrink: 0;
 }
 
 .cp-back-btn {
   background: none;
-  border: 1px solid rgba(76, 175, 80, 0.18);
-  color: rgba(238, 245, 238, 0.6);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.18);
+  color: rgba(245, 245, 245, 0.6);
   border-radius: 8px;
   width: 34px;
   height: 34px;
@@ -39,9 +39,9 @@
 }
 
 .cp-back-btn:hover {
-  color: #e8f5e9;
-  border-color: rgba(76, 175, 80, 0.35);
-  background: rgba(76, 175, 80, 0.08);
+  color: var(--color-text);
+  border-color: rgba(var(--color-accent-rgb), 0.35);
+  background: rgba(var(--color-accent-rgb), 0.08);
 }
 
 .cp-topbar-brand {
@@ -50,11 +50,11 @@
   gap: 0.4rem;
   font-weight: 800;
   font-size: 1.05rem;
-  color: #e8f5e9;
+  color: var(--color-text);
 }
 
 .cp-brand-star {
-  color: #d4af37;
+  color: var(--color-accent-strong);
   font-size: 0.9rem;
 }
 
@@ -70,7 +70,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
-  color: rgba(238, 245, 238, 0.4);
+  color: rgba(245, 245, 245, 0.4);
 }
 
 .cp-clear-btn {
@@ -79,9 +79,9 @@
   gap: 0.35rem;
   padding: 0.4rem 0.75rem;
   border-radius: 8px;
-  border: 1px solid rgba(76, 175, 80, 0.12);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.12);
   background: none;
-  color: rgba(238, 245, 238, 0.4);
+  color: rgba(245, 245, 245, 0.4);
   font-size: 0.78rem;
   cursor: pointer;
   transition: all 140ms;
@@ -89,8 +89,8 @@
 }
 
 .cp-clear-btn:hover {
-  color: #e8f5e9;
-  border-color: rgba(76, 175, 80, 0.3);
+  color: var(--color-text);
+  border-color: rgba(var(--color-accent-rgb), 0.3);
   background: rgba(255, 255, 255, 0.04);
 }
 
@@ -109,7 +109,7 @@
 }
 
 .cp-messages::-webkit-scrollbar-thumb {
-  background: rgba(76, 175, 80, 0.2);
+  background: rgba(var(--color-accent-rgb), 0.2);
   border-radius: 3px;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .cp-empty-icon {
-  color: rgba(76, 175, 80, 0.15);
+  color: rgba(var(--color-accent-rgb), 0.15);
   margin-bottom: 1.5rem;
 }
 
@@ -145,14 +145,14 @@
   margin: 0 0 0.5rem;
   font-size: 1.8rem;
   font-weight: 900;
-  color: #e8f5e9;
+  color: var(--color-text);
   letter-spacing: -0.02em;
 }
 
 .cp-empty-desc {
   margin: 0 0 2rem;
   font-size: 0.95rem;
-  color: rgba(238, 245, 238, 0.4);
+  color: rgba(245, 245, 245, 0.4);
   max-width: 440px;
   line-height: 1.6;
 }
@@ -168,9 +168,9 @@
 .cp-suggestion {
   padding: 0.55rem 1rem;
   border-radius: 9999px;
-  border: 1px solid rgba(76, 175, 80, 0.18);
-  background: rgba(76, 175, 80, 0.04);
-  color: rgba(238, 245, 238, 0.6);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.18);
+  background: rgba(var(--color-accent-rgb), 0.04);
+  color: rgba(245, 245, 245, 0.6);
   font-size: 0.82rem;
   cursor: pointer;
   transition: all 140ms;
@@ -178,9 +178,9 @@
 }
 
 .cp-suggestion:hover:not(:disabled) {
-  color: #4caf50;
-  border-color: rgba(76, 175, 80, 0.4);
-  background: rgba(76, 175, 80, 0.08);
+  color: var(--color-accent);
+  border-color: rgba(var(--color-accent-rgb), 0.4);
+  background: rgba(var(--color-accent-rgb), 0.08);
 }
 
 .cp-suggestion:disabled {
@@ -191,16 +191,16 @@
 /* ═══════════════════════ INPUT ════════════════════════════════════════════ */
 .cp-input-wrapper {
   padding: 0.5rem 2rem 1.25rem;
-  background: linear-gradient(transparent, rgba(8, 14, 8, 0.95) 30%);
+  background: linear-gradient(transparent, rgba(11, 11, 12, 0.95) 30%);
   flex-shrink: 0;
 }
 
 .cp-input-wrapper .chat-input-bar {
   max-width: 720px;
   margin: 0 auto;
-  border: 1px solid rgba(76, 175, 80, 0.12);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.12);
   border-radius: 14px;
-  background: rgba(15, 26, 15, 0.95);
+  background: rgba(20, 20, 20, 0.95);
 }
 
 .cp-input-wrapper .chat-input-field {

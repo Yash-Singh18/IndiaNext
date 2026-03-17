@@ -61,8 +61,8 @@
 }
 
 .admin-login-error {
-  background: #fde8e8;
-  color: #9b1c1c;
+  background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  color: var(--color-error);
   padding: 0.6rem 1rem;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
@@ -76,7 +76,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-size: 1rem;
-  background: var(--color-surface-strong, #f8fafc);
+  background: var(--color-surface-strong);
   color: var(--color-text);
   box-sizing: border-box;
   outline: none;
@@ -268,9 +268,9 @@
   letter-spacing: 0.05em;
 }
 
-.ad-tier-free { background: #e2e8f0; color: #475569; }
-.ad-tier-pro { background: #fef08a; color: #854d0e; }
-.ad-tier-enterprise { background: #e9d5ff; color: #6b21a8; }
+.ad-tier-free { background: rgba(var(--color-accent-rgb), 0.1); color: var(--color-muted); }
+.ad-tier-pro { background: rgba(var(--color-accent-rgb), 0.2); color: var(--color-accent-strong); }
+.ad-tier-enterprise { background: rgba(var(--color-accent-rgb), 0.3); color: var(--color-accent); }
 
 .ad-status {
   padding: 0.25rem 0.6rem;
@@ -280,9 +280,9 @@
   letter-spacing: 0.05em;
 }
 
-.ad-status-pending { background: #fdf6b2; color: #723b13; }
-.ad-status-approved { background: #def7ec; color: #03543f; }
-.ad-status-rejected { background: #fde8e8; color: #9b1c1c; }
+.ad-status-pending { background: rgba(var(--color-accent-rgb), 0.15); color: var(--color-accent-strong); }
+.ad-status-approved { background: color-mix(in srgb, var(--color-success) 12%, transparent); color: var(--color-success); }
+.ad-status-rejected { background: color-mix(in srgb, var(--color-error) 12%, transparent); color: var(--color-error); }
 
 .ad-reviewed {
   color: var(--color-muted);
@@ -319,12 +319,12 @@
 .admin-tab:hover { color: var(--color-text); }
 
 .admin-tab-active {
-  color: var(--color-accent, #1b5e20);
-  border-bottom-color: var(--color-accent, #1b5e20);
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
 }
 
 .admin-tab-badge {
-  background: #ef4444;
+  background: var(--color-error);
   color: #fff;
   font-size: 0.7rem;
   font-weight: 800;
@@ -335,7 +335,7 @@
 
 .ad-username {
   font-weight: 700;
-  color: var(--color-accent, #1b5e20);
+  color: var(--color-accent);
 }
 
 .ad-score {

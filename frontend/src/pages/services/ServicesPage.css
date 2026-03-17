@@ -1,7 +1,7 @@
 .sp-page {
   min-height: 100vh;
-  background: #0a0f0a;
-  color: #e2e8e2;
+  background: var(--color-bg);
+  color: var(--color-text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -20,9 +20,9 @@
 .sp-hero-tag {
   display: inline-block;
   padding: 0.28rem 0.85rem;
-  background: rgba(17, 197, 179, 0.1);
-  border: 1px solid rgba(17, 197, 179, 0.2);
-  color: #11c5b3;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  color: var(--color-accent);
   border-radius: 999px;
   font-size: 0.72rem;
   font-weight: 700;
@@ -35,13 +35,13 @@
   font-size: clamp(1.9rem, 4vw, 2.9rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: #e8f5e9;
+  color: var(--color-text);
   margin-bottom: 0.75rem;
 }
 
 .sp-hero-sub {
   font-size: 1rem;
-  color: #64736a;
+  color: var(--color-muted);
   max-width: 520px;
   margin: 0 auto;
   line-height: 1.65;
@@ -56,8 +56,8 @@
 }
 
 .sp-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 18px;
   padding: 1.75rem;
   display: flex;
@@ -67,14 +67,14 @@
 }
 
 .sp-card:hover {
-  border-color: rgba(17, 197, 179, 0.18);
+  border-color: rgba(var(--color-accent-rgb), 0.18);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 }
 
 .sp-card-featured {
-  border-color: rgba(17, 197, 179, 0.22);
-  background: rgba(17, 197, 179, 0.035);
-  box-shadow: 0 0 48px rgba(17, 197, 179, 0.07);
+  border-color: rgba(var(--color-accent-rgb), 0.22);
+  background: rgba(var(--color-accent-rgb), 0.035);
+  box-shadow: 0 0 48px rgba(var(--color-accent-rgb), 0.07);
 }
 
 .sp-card-icon {
@@ -100,9 +100,9 @@
 }
 
 .sp-badge-api {
-  background: rgba(17, 197, 179, 0.1);
-  border: 1px solid rgba(17, 197, 179, 0.22);
-  color: #11c5b3;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.22);
+  color: var(--color-accent);
 }
 
 .sp-badge-pro {
@@ -120,13 +120,13 @@
 .sp-card-title {
   font-size: 1.15rem;
   font-weight: 800;
-  color: #e8f5e9;
+  color: var(--color-text);
   letter-spacing: -0.02em;
 }
 
 .sp-card-desc {
   font-size: 0.87rem;
-  color: #64736a;
+  color: var(--color-muted);
   line-height: 1.65;
 }
 
@@ -142,17 +142,17 @@
 
 .sp-features li {
   font-size: 0.82rem;
-  color: #8fa89a;
+  color: var(--color-muted);
   padding-left: 1.2rem;
   position: relative;
   line-height: 1.4;
 }
 
 .sp-features li::before {
-  content: "✓";
+  content: "\2713";
   position: absolute;
   left: 0;
-  color: #11c5b3;
+  color: var(--color-accent);
   font-weight: 700;
   font-size: 0.74rem;
   top: 0.05em;
@@ -161,7 +161,7 @@
 /* ── API box ── */
 .sp-api-box {
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   padding: 0.9rem 1rem;
   display: flex;
@@ -179,7 +179,7 @@
 
 .sp-api-label {
   font-size: 0.73rem;
-  color: #64736a;
+  color: var(--color-muted);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -192,18 +192,18 @@
 
 .sp-api-key {
   font-size: 0.8rem;
-  color: #11c5b3;
+  color: var(--color-accent);
   font-family: monospace;
-  background: rgba(17, 197, 179, 0.08);
+  background: rgba(var(--color-accent-rgb), 0.08);
   padding: 0.2rem 0.5rem;
   border-radius: 5px;
 }
 
 .sp-copy-btn {
   padding: 0.18rem 0.55rem;
-  background: rgba(17, 197, 179, 0.1);
-  border: 1px solid rgba(17, 197, 179, 0.22);
-  color: #11c5b3;
+  background: rgba(var(--color-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.22);
+  color: var(--color-accent);
   border-radius: 5px;
   font-size: 0.7rem;
   font-weight: 600;
@@ -214,13 +214,13 @@
 }
 
 .sp-copy-btn:hover {
-  background: rgba(17, 197, 179, 0.2);
+  background: rgba(var(--color-accent-rgb), 0.2);
 }
 
 .sp-docs-toggle {
   background: none;
   border: none;
-  color: #64736a;
+  color: var(--color-muted);
   font-size: 0.76rem;
   font-weight: 600;
   cursor: pointer;
@@ -231,7 +231,7 @@
 }
 
 .sp-docs-toggle:hover {
-  color: #11c5b3;
+  color: var(--color-accent);
 }
 
 .sp-docs {
@@ -250,7 +250,7 @@
 
 .sp-doc-label {
   font-size: 0.67rem;
-  color: #64736a;
+  color: var(--color-muted);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -258,7 +258,7 @@
 
 .sp-doc-code {
   font-size: 0.77rem;
-  color: #94a3b8;
+  color: var(--color-muted);
   font-family: "SF Mono", "Fira Code", monospace;
   background: rgba(0, 0, 0, 0.35);
   padding: 0.25rem 0.5rem;
@@ -304,18 +304,18 @@
 }
 
 .sp-btn-primary {
-  background: linear-gradient(135deg, #1b5e20, #11c5b3);
+  background: linear-gradient(135deg, var(--color-accent-strong), var(--color-accent));
   color: #fff;
 }
 
 .sp-btn-demo {
-  background: linear-gradient(135deg, #0ea5e9, #11c5b3);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-strong));
   color: #fff;
 }
 
 .sp-note {
   font-size: 0.73rem;
-  color: #64736a;
+  color: var(--color-muted);
 }
 
 /* ── Responsive ── */

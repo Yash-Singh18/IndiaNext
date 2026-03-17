@@ -4,7 +4,7 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(10, 22, 10, 0.72);
+  background: rgba(11, 11, 12, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
@@ -14,7 +14,7 @@
 }
 
 .psm-card {
-  background: #ffffff;
+  background: var(--color-surface-strong);
   border-radius: 20px;
   padding: clamp(2rem, 5vw, 2.8rem) clamp(1.5rem, 5vw, 3rem);
   width: min(100%, 460px);
@@ -43,8 +43,8 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #2E7D32;
-  background: rgba(46, 125, 50, 0.08);
+  color: var(--color-accent-strong);
+  background: rgba(var(--color-accent-rgb), 0.08);
   padding: 0.3rem 0.9rem;
   border-radius: 9999px;
   margin-bottom: 0.9rem;
@@ -54,24 +54,24 @@
   margin: 0 0 0.4rem;
   font-size: 1.6rem;
   font-weight: 900;
-  color: #1B5E20;
+  color: var(--color-accent);
   letter-spacing: -0.02em;
 }
 
 .psm-sub {
   margin: 0;
   font-size: 0.9rem;
-  color: #64748B;
+  color: var(--color-muted);
   line-height: 1.5;
 }
 
 .psm-error {
   margin: 0 0 1rem;
   padding: 0.7rem 1rem;
-  background: rgba(181, 59, 59, 0.08);
-  border: 1px solid rgba(181, 59, 59, 0.22);
+  background: rgba(255, 77, 77, 0.08);
+  border: 1px solid rgba(255, 77, 77, 0.22);
   border-radius: 10px;
-  color: #b53b3b;
+  color: var(--color-error);
   font-size: 0.88rem;
   line-height: 1.4;
 }
@@ -91,27 +91,27 @@
 .psm-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #1E293B;
+  color: var(--color-text);
 }
 
 .psm-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1.5px solid rgba(29, 35, 48, 0.15);
+  border: 1.5px solid var(--color-border);
   border-radius: 10px;
   font: inherit;
   font-size: 0.95rem;
-  color: #1E293B;
-  background: #F8FAF8;
+  color: var(--color-text);
+  background: var(--color-surface);
   transition: border-color 140ms, box-shadow 140ms;
   outline: none;
   box-sizing: border-box;
 }
 
 .psm-input:focus {
-  border-color: #2E7D32;
-  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
-  background: #fff;
+  border-color: var(--color-accent-strong);
+  box-shadow: 0 0 0 3px rgba(var(--color-accent-rgb), 0.12);
+  background: var(--color-surface-strong);
 }
 
 .psm-input:disabled {
@@ -131,7 +131,7 @@
   left: 1rem;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #2E7D32;
+  color: var(--color-accent-strong);
   pointer-events: none;
   user-select: none;
 }
@@ -142,13 +142,13 @@
 
 .psm-hint {
   font-size: 0.78rem;
-  color: #94A3B8;
+  color: var(--color-muted);
   line-height: 1.4;
 }
 
 .psm-submit {
   margin-top: 0.4rem;
-  background: linear-gradient(135deg, #D4AF37, #4CAF50, #2E7D32);
+  background: linear-gradient(135deg, #D4AF37, #C6A75C);
   color: #fff;
   border: none;
   border-radius: 9999px;
@@ -157,14 +157,14 @@
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(46, 125, 50, 0.35);
+  box-shadow: 0 4px 20px rgba(var(--color-accent-rgb), 0.35);
   transition: opacity 140ms, transform 120ms, box-shadow 140ms;
 }
 
 .psm-submit:hover:not(:disabled) {
   opacity: 0.92;
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(46, 125, 50, 0.45);
+  box-shadow: 0 8px 28px rgba(var(--color-accent-rgb), 0.45);
 }
 
 .psm-submit:disabled {
