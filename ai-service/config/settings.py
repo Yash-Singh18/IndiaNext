@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     # Redis
     redis_host: str = "localhost"
     redis_port: int = 6379
+    redis_password: str = ""
 
     # Models
     embedding_model: str = "BAAI/bge-large-en-v1.5"

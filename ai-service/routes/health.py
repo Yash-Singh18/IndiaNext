@@ -22,7 +22,7 @@ async def health_check():
 
     # Check Redis
     try:
-        r = Redis(host=settings.redis_host, port=settings.redis_port, socket_timeout=2)
+        r = Redis(host=settings.redis_host, port=settings.redis_port, password=settings.redis_password or None, socket_timeout=2)
         r.ping()
         services["redis"] = "healthy"
     except Exception:

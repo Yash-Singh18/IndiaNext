@@ -15,6 +15,7 @@ class MemoryService:
             self._client = redis.Redis(
                 host=settings.redis_host,
                 port=settings.redis_port,
+                password=settings.redis_password or None,
                 decode_responses=True,
             )
         return self._client
