@@ -67,9 +67,10 @@ const FOOTER_ICONS = {
   ),
 };
 
-function FooterIcon({ name }) {
+function FooterIcon({ name, onClick }) {
+  const Tag = onClick ? "a" : "span";
   return (
-    <span className="home-footer-icon" aria-label={name}>
+    <Tag className="home-footer-icon" aria-label={name} onClick={onClick} style={onClick ? { cursor: "pointer" } : undefined}>
       <svg
         viewBox="0 0 24 24"
         fill="none"
@@ -82,7 +83,7 @@ function FooterIcon({ name }) {
       >
         {FOOTER_ICONS[name]}
       </svg>
-    </span>
+    </Tag>
   );
 }
 
@@ -304,7 +305,7 @@ export function HomePage({ state, actions, chat, onOpenChatPage, onOpenDashboard
           </span>
           <div className="home-footer-icons" aria-hidden="true">
             {Object.keys(FOOTER_ICONS).map((name) => (
-              <FooterIcon key={name} name={name} />
+              <FooterIcon key={name} name={name} onClick={name === "Instagram" ? onAdmin : undefined} />
             ))}
           </div>
         </div>
