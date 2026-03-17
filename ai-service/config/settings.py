@@ -21,8 +21,8 @@ class Settings(BaseSettings):
     redis_password: str = ""
 
     # Models
-    embedding_model: str = "BAAI/bge-large-en-v1.5"
-    reranker_model: str = "BAAI/bge-reranker-large"
+    embedding_model: str = "BAAI/bge-small-en-v1.5"
+    reranker_model: str = ""  # disabled — not used
     router_llm: str = "llama-3.1-8b-instant"
     main_llm: str = "llama-3.3-70b-versatile"
 
