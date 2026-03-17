@@ -26,7 +26,10 @@ function toErrorMessage(error, fallback) {
 }
 
 export function App() {
-  const [page, setPage] = useState("landing");
+  const [page, setPage] = useState(() => {
+    if (window.location.hash === "#admin") return "admin";
+    return "landing";
+  });
   const [communityRoomId, setCommunityRoomId] = useState(null);
   const chat = useChat();
   const profileChannelRef = useRef(null);
