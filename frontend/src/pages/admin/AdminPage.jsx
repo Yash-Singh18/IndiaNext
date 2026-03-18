@@ -15,8 +15,8 @@ import {
 } from "../../services/notification/notificationService.js";
 import "./AdminPage.css";
 
-const ADMIN_USERNAME = "Yash";
-const ADMIN_PASSWORD = "northstar";
+const ADMIN_USERNAME = import.meta.env.VITE_ADMIN_USERNAME || "admin";
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "changeme";
 
 export function AdminPage() {
   const [loggedIn, setLoggedIn] = useState(false);

@@ -35,3 +35,7 @@ docspdf/
 # OS
 .DS_Store
 Thumbs.db
+
+# Documentation/planning
+Planning/
+documentation/
