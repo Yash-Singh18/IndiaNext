@@ -1,6 +1,6 @@
 # NorthStar — AI-Powered Cybersecurity Platform
 
-> Built at IndiaHacks 2026 · 2nd Runner Up
+> Built at IndiaNext 2026 · 2nd Runner Up
 
 NorthStar is a full-stack cybersecurity platform that combines multiple AI-driven detection systems under one roof — from phishing URL analysis and deepfake detection to real-time prompt injection defense and login anomaly alerts.
 
